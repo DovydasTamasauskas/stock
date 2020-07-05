@@ -9,7 +9,7 @@ function Stock({ symbol }) {
   const [SMA, AddSMA] = useState([]);
   const [Bull, AddBull] = useState(0);
   const [Bear, AddBear] = useState(0);
-  const [Divedent, AddDivedent] = useState(0);
+  const [Divident, AddDivident] = useState(0);
 
   useEffect(() => {
     //https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=TSLA&outputsize=compact&apikey=HGJWFG4N8AQ66ICD
@@ -23,8 +23,7 @@ function Stock({ symbol }) {
         AddData(Data => [...Data, key]);
         divident = result.data['Time Series (Daily)'][key]['7. dividend amount']
         if(divident != 0){ 
-          console.log(divident);
-          AddDivedent(Bull => Bull+parseFloat(divident));
+          AddDivident(Divident => Divident+parseFloat(divident));
         }
       }
     }
@@ -76,7 +75,7 @@ function Stock({ symbol }) {
       />
       <div style={{color: "red"}}>Bullish {Bull}</div>
       <div style={{color: "green"}}>Bearish {Bear}</div>
-      <div style={{color: "black"}}>Divedent {Divedent}</div>
+      <div style={{color: "black"}}>Divident {Divident}</div>
   </div>
   );
 }
