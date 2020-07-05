@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './App.css';
-import StockChart from '../components/StockChart';
+import Chart from '../components/Chart';
 
 function App() {
   return (
     <div className="App">
-      <StockChart/>
+      <Chart symbol="TSLA"/>
     </div>
   );
 }
