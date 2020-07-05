@@ -30,17 +30,9 @@ function Stock({ symbol }) {
     fetchData();
   }, [symbol]);
 
-  useEffect(() => {
-    //https://www.alphavantage.co/query?function=SMA&symbol=TSLA&interval=daily&time_period=10&series_type=open&apikey=HGJWFG4N8AQ66ICD
-    async function fetchData() {
-      const result = await axios(
-        SMA_URL.replace("__symbol__", symbol),
-      );
-      for (var key in result.data['Technical Analysis: SMA']) {
-        AddSMA(SMA => [...SMA, result.data['Technical Analysis: SMA'][key]['SMA']]);
-      }
-    }
-    fetchData();
+  useEffect(async() => {
+    var SMAArray = await getSMA(symbol);
+    AddSMA(SAM => SMAArray);
   }, [symbol]);
 
   useEffect(() => {
@@ -79,5 +71,17 @@ function Stock({ symbol }) {
   </div>
   );
 }
+
+  async function getSMA(symbol) {
+    //https://www.alphavantage.co/query?function=SMA&symbol=TSLA&interval=daily&time_period=10&series_type=open&apikey=HGJWFG4N8AQ66ICD
+    const result = await axios(
+      SMA_URL.replace("__symbol__", symbol),
+    );
+    var array = [];
+    for (var key in result.data['Technical Analysis: SMA']) {
+      array.push(result.data['Technical Analysis: SMA'][key]['SMA']);
+    }
+    return array;
+  }
 
 export default Stock;
