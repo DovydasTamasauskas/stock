@@ -4,37 +4,23 @@ import { CHART_URL, SMA_URL } from "../consts/CONST.js";
 import axios from "axios";
 
 function Stock({ symbol }) {
-  const [Data, AddData] = useState([]);
+  const [Date, AddDate] = useState([]);
   const [Price, AddPrice] = useState([]);
   const [SMA, AddSMA] = useState([]);
   const [Bull, AddBull] = useState(0);
   const [Bear, AddBear] = useState(0);
   const [Divident, AddDivident] = useState(0);
 
-  useEffect(() => {
-    //https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=TSLA&outputsize=compact&apikey=HGJWFG4N8AQ66ICD
-    async function fetchData() {
-      const result = await axios(CHART_URL.replace("__symbol__", symbol));
-      let divident = 0;
-      for (var key in result.data["Time Series (Daily)"]) {
-        AddPrice((Price) => [
-          ...Price,
-          result.data["Time Series (Daily)"][key]["1. open"],
-        ]);
-        AddData((Data) => [...Data, key]);
-        divident =
-          result.data["Time Series (Daily)"][key]["7. dividend amount"];
-        if (divident != 0) {
-          AddDivident((Divident) => Divident + parseFloat(divident));
-        }
-      }
-    }
-    fetchData();
+  useEffect(async () => {
+    var { Price, Date, Divident } = await getChartData(symbol);
+    AddPrice(Price);
+    AddDate(Date);
+    AddDivident(Divident);
   }, [symbol]);
 
   useEffect(async () => {
     var SMAArray = await getSMA(symbol);
-    AddSMA((SAM) => SMAArray);
+    AddSMA(SMAArray);
   }, [symbol]);
 
   useEffect(() => {
@@ -53,13 +39,13 @@ function Stock({ symbol }) {
       <Plot
         data={[
           {
-            x: Data,
+            x: Date,
             y: Price,
             type: "scatter",
             marker: { color: "red" },
           },
           {
-            x: Data,
+            x: Date,
             y: SMA,
             type: "scatter",
             marker: { color: "green" },
@@ -82,6 +68,24 @@ async function getSMA(symbol) {
     array.push(result.data["Technical Analysis: SMA"][key]["SMA"]);
   }
   return array;
+}
+
+async function getChartData(symbol) {
+  //https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=TSLA&outputsize=compact&apikey=HGJWFG4N8AQ66ICD
+  const result = await axios(CHART_URL.replace("__symbol__", symbol));
+  let divident = 0;
+  var Price = [],
+    Date = [],
+    Divident = 0;
+  for (var key in result.data["Time Series (Daily)"]) {
+    Price.push(result.data["Time Series (Daily)"][key]["1. open"]);
+    Date.push(key);
+    divident = result.data["Time Series (Daily)"][key]["7. dividend amount"];
+    if (divident != 0) {
+      Divident += parseFloat(divident);
+    }
+  }
+  return { Price, Date, Divident };
 }
 
 export default Stock;
