@@ -1,5 +1,6 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
+import CONST from '../consts/CONST';
 
 class Stock extends React.Component {
   constructor(props) {
@@ -45,9 +46,6 @@ class Stock extends React.Component {
 
   render() {
     return (
-      <div>
-
-        <h1>Stock Market</h1>
         <Plot
           data={[
             {
@@ -60,7 +58,6 @@ class Stock extends React.Component {
           ]}
           layout={{width: 720, height: 440, title: 'A Fancy Plot'}}
         />
-      </div>
     )
   }
 }
