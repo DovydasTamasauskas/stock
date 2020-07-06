@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Plot from "react-plotly.js";
 import { CHART_URL, SMA_URL } from "../consts/CONST.js";
+import { Email } from "../consts/emailSender.js";
 import axios from "axios";
+import emailjs from 'emailjs-com';
 
 function Stock({ symbol }) {
   const [Date, AddDate] = useState([]);
@@ -21,6 +23,8 @@ function Stock({ symbol }) {
   useEffect(async () => {
     var SMAArray = await getSMA(symbol);
     AddSMA(SMAArray);
+    fetch('http://www.database.lavina.lt?Daily,MCD');
+    fetch('http://www.database.lavina.lt?SMA,MCD');
   }, [symbol]);
 
   useEffect(() => {
@@ -31,7 +35,26 @@ function Stock({ symbol }) {
         AddBear((Bear) => Bear + 1);
       }
     }
-  }, [Price.length == 100]);
+  }, [Price.length === 100]);
+
+  useEffect(async () => {
+    // Email.send({
+    //   Host: "smtp.gmail.com",
+    //   Username: "ojnas25@gmail.com",
+    //   Password: "Jonas:123",
+    //   To: "odvydas@gmail.com",
+    //   From: "ojnas25@gmail.com",
+    //   Subject: "dasd",
+    //   Body: "asdaww",
+    // }).then((message) => alert("mail sent successfully"));
+
+    emailjs.sendForm('122e3bec6b52e937fea141e9106f05ee', 'template_jcMpOjef', {}, 'user_iZhtzzWsTGBl8MVqpFTzQ')
+    .then((result) => {
+        console.log(result.text);
+    }, (error) => {
+        console.log(error.text);
+    });
+  }, [symbol]);
 
   return (
     <div>
@@ -81,7 +104,7 @@ async function getChartData(symbol) {
     Price.push(result.data["Time Series (Daily)"][key]["1. open"]);
     Date.push(key);
     divident = result.data["Time Series (Daily)"][key]["7. dividend amount"];
-    if (divident != 0) {
+    if (divident !== 0) {
       Divident += parseFloat(divident);
     }
   }
