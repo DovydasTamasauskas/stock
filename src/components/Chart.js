@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Plot from "react-plotly.js";
-import { CHART_URL, SMA_URL } from "../consts/CONST.js";
+import {
+  CHART_URL,
+  SMA_URL,
+  BACKEND_HOST,
+  SMA,
+  DAILY,
+} from "../consts/CONST.js";
 import { Email } from "../consts/emailSender.js";
 import axios from "axios";
-import emailjs from 'emailjs-com';
+import emailjs from "emailjs-com";
 
 function Stock({ symbol }) {
   const [Date, AddDate] = useState([]);
@@ -23,8 +29,6 @@ function Stock({ symbol }) {
   useEffect(async () => {
     var SMAArray = await getSMA(symbol);
     AddSMA(SMAArray);
-    fetch('http://www.database.lavina.lt?Daily,MCD');
-    fetch('http://www.database.lavina.lt?SMA,MCD');
   }, [symbol]);
 
   useEffect(() => {
@@ -48,12 +52,21 @@ function Stock({ symbol }) {
     //   Body: "asdaww",
     // }).then((message) => alert("mail sent successfully"));
 
-    emailjs.sendForm('122e3bec6b52e937fea141e9106f05ee', 'template_jcMpOjef', {}, 'user_iZhtzzWsTGBl8MVqpFTzQ')
-    .then((result) => {
-        console.log(result.text);
-    }, (error) => {
-        console.log(error.text);
-    });
+    emailjs
+      .sendForm(
+        "122e3bec6b52e937fea141e9106f05ee",
+        "template_jcMpOjef",
+        {},
+        "user_iZhtzzWsTGBl8MVqpFTzQ"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
   }, [symbol]);
 
   return (
@@ -85,7 +98,8 @@ function Stock({ symbol }) {
 
 async function getSMA(symbol) {
   //https://www.alphavantage.co/query?function=SMA&symbol=TSLA&interval=daily&time_period=10&series_type=open&apikey=HGJWFG4N8AQ66ICD
-  const result = await axios(SMA_URL.replace("__symbol__", symbol));
+  //const result = await axios(SMA_URL.replace("__symbol__", symbol));
+  const result = await axios(`${BACKEND_HOST}?Get,${SMA},${symbol}`);
   var array = [];
   for (var key in result.data["Technical Analysis: SMA"]) {
     array.push(result.data["Technical Analysis: SMA"][key]["SMA"]);
@@ -95,7 +109,8 @@ async function getSMA(symbol) {
 
 async function getChartData(symbol) {
   //https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=TSLA&outputsize=compact&apikey=HGJWFG4N8AQ66ICD
-  const result = await axios(CHART_URL.replace("__symbol__", symbol));
+  //const result = await axios(CHART_URL.replace("__symbol__", symbol));
+  const result = await axios(`${BACKEND_HOST}?Get,${DAILY},${symbol}`);
   let divident = 0;
   var Price = [],
     Date = [],

@@ -1,4 +1,7 @@
 <?php
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Accept');
 	$API_KEY = 'apikey=HGJWFG4N8AQ66ICD';
 	$HOST = 'https://www.alphavantage.co/';
 	$symbol = $_SERVER['QUERY_STRING'];
