@@ -4,8 +4,8 @@ import Chart from "../components/Chart";
 import { BACKEND_HOST, STOCKS, DAILY, SMA } from "../consts/CONST.js";
 
 function App() {
-  let startHour = 17;
-  let startMinute = 45;
+  let startHour = 7;
+  let startMinute = 0;
   const interval = 60000;
 
   window.setInterval(function () {
