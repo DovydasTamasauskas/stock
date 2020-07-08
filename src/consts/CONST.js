@@ -7,6 +7,7 @@ export const BACKEND_HOST = "http://www.database.lavina.lt";
 export const DAILY = "Daily";
 export const SMA = "SMA";
 export const STOCKS = [
+  "SPY",
   "TSLA",
   "AAPL",
   "AMZN",
