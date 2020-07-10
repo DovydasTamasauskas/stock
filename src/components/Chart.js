@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import Plot from "react-plotly.js";
 import { BACKEND_HOST, SMA, DAILY } from "../consts/CONST.js";
 import axios from "axios";
+import { getDays, getTechnicalAnalysis } from "../functions/func.js";
 
 function Stock({ symbol, days, color }) {
-  const [Date, AddDate] = useState([]);
+  const Date = getDays(days);
   const [Price, AddPrice] = useState([]);
-  const [SMA, AddSMA] = useState([]);
+  const [Sma, AddSma] = useState([]);
   const [Bull, AddBull] = useState(0);
   const [Bear, AddBear] = useState(0);
   const [Divident, AddDivident] = useState(0);
@@ -15,9 +16,11 @@ function Stock({ symbol, days, color }) {
     var { Price, Divident } = await getChartData(symbol, days);
     AddPrice(Price);
     AddDivident(Divident);
-    AddDate(getDays(days));
-    var SMAArray = await getSMA(symbol);
-    AddSMA(SMAArray);
+    var SmaArray = await getTechnicalAnalysis(
+      `${BACKEND_HOST}?Get,${SMA},${symbol}`,
+      SMA
+    );
+    AddSma(SmaArray);
     for (let i = 0; i < Price.length - 1; i++) {
       if (Price[i] > Price[i + 1]) {
         AddBull((Bull) => Bull + 1);
@@ -40,7 +43,7 @@ function Stock({ symbol, days, color }) {
           },
           {
             x: Date,
-            y: SMA,
+            y: Sma,
             type: "scatter",
             marker: { color: "green" },
             name: "SMA",
@@ -62,17 +65,6 @@ function Stock({ symbol, days, color }) {
   );
 }
 
-const getSMA = async (symbol) => {
-  //https://www.alphavantage.co/query?function=SMA&symbol=TSLA&interval=daily&time_period=10&series_type=open&apikey=HGJWFG4N8AQ66ICD
-  //const result = await axios(SMA_URL.replace("__symbol__", symbol));
-  const result = await axios(`${BACKEND_HOST}?Get,${SMA},${symbol}`);
-  var array = [];
-  for (var key in result.data["Technical Analysis: SMA"]) {
-    array.push(result.data["Technical Analysis: SMA"][key]["SMA"]);
-  }
-  return array;
-};
-
 const getChartData = async (symbol, days) => {
   //https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=TSLA&outputsize=compact&apikey=HGJWFG4N8AQ66ICD
   //const result = await axios(CHART_URL.replace("__symbol__", symbol));
@@ -93,20 +85,6 @@ const getChartData = async (symbol, days) => {
     }
   }
   return { Price, Divident };
-};
-
-const getDays = (days) => {
-  var date = new Date();
-  var result = [];
-
-  for (var i = 0; i < days; i++) {
-    date.setDate(date.getDate() - 1);
-    result.push(
-      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
-    );
-  }
-
-  return result;
 };
 
 export default Stock;

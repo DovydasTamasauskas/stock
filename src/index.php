@@ -27,6 +27,9 @@
 			case 'SMA':
 				return $HOST.'query?function=SMA&symbol='.$symbol.'&interval=daily&time_period=10&series_type=open&'.$API_KEY;
 				break;
+			case 'RSI':
+				return $HOST.'query?function=RSI&symbol='.$symbol.'&interval=daily&time_period=10&series_type=open&'.$API_KEY;
+				break;
 		}
 	}
 ?>

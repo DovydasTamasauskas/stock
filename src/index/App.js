@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
 import Chart from "../components/Chart";
+import RSI from "../components/RSI";
 import { BACKEND_HOST, DAILY, SMA, STOCKS } from "../consts/CONST.js";
 
 function App() {
-  let startHour = 7;
-  let startMinute = 0;
+  let startHour = 18;
+  let startMinute = 10;
   const interval = 60000;
 
   // window.setInterval(function () {
@@ -23,11 +24,24 @@ function App() {
 
   return (
     <div className="App">
-      {/* {STOCKS.map((stock, i) => (
-        <Chart key={i} symbol={stock} days={100} color={"#DCDCDC"} />
-      ))} */}
-      <Chart symbol="SPY" days={200} color={"#DCDCDC"} />
-      <Chart symbol="SPY" days={50} color={"#A9A9A9"} />
+      {STOCKS.map((stock, i) => (
+        <div>
+          <Chart
+            key={i}
+            symbol={stock}
+            days={100}
+            color={i % 2 == 0 ? "#DCDCDC" : "#A9A9A9"}
+          />
+          <RSI
+            key={i}
+            symbol={stock}
+            days={100}
+            color={i % 2 == 0 ? "#DCDCDC" : "#A9A9A9"}
+          />
+        </div>
+      ))}
+      {/* <Chart symbol={"TSLA"} days={100} color={"#A9A9A9"} />
+      <RSI symbol={"TSLA"} days={100} color={"#A9A9A9"} /> */}
     </div>
   );
 }
