@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Plot from "react-plotly.js";
 import { BACKEND_HOST, RSI } from "../consts/CONST.js";
 import { getTechnicalAnalysis } from "../functions/func.js";
+import useEffectAsync from "../helpers/useEffectAsync.js";
 
 function Stock({ symbol, days, color }) {
   const [Rsi, AddRsi] = useState([]);
 
-  useEffect(async () => {
+  useEffectAsync(async () => {
     const rsi = await getTechnicalAnalysis(
       `${BACKEND_HOST}?Get,${RSI},${symbol}`,
       RSI
     );
     AddRsi(rsi);
-  }, [symbol]);
+  }, symbol);
 
   return (
     <div style={{ backgroundColor: color, paddingBottom: 30 }}>

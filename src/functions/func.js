@@ -52,7 +52,7 @@ export const getDivedent = async (endpoint, func, days) => {
 
 export const getBullish = (price, days) => {
   var result = 0;
-  for (let i = 0; i < price.length - 1 && days != 0; i++) {
+  for (let i = 0; i < price.length - 1 && days !== 0; i++) {
     if (price[i] > price[i + 1]) {
       result++;
     }
@@ -63,7 +63,7 @@ export const getBullish = (price, days) => {
 
 export const getBeerish = (price, days) => {
   var result = 0;
-  for (let i = 0; i < price.length - 1 && days != 0; i++) {
+  for (let i = 0; i < price.length - 1 && days !== 0; i++) {
     if (price[i] < price[i + 1]) {
       result++;
     }

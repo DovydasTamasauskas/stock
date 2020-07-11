@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Plot from "react-plotly.js";
 import { BACKEND_HOST, SMA, DAILY } from "../consts/CONST.js";
 import {
@@ -8,13 +8,14 @@ import {
   getBullish,
   getBeerish,
 } from "../functions/func.js";
+import useEffectAsync from "../helpers/useEffectAsync.js";
 
 function Stock({ symbol, days, color }) {
   const [Price, AddPrice] = useState([]);
   const [Sma, AddSma] = useState([]);
   const [Divident, AddDivident] = useState(0);
 
-  useEffect(async () => {
+  useEffectAsync(async () => {
     const price = await getTimeSeries(
       `${BACKEND_HOST}?Get,${DAILY},${symbol}`,
       DAILY
@@ -25,13 +26,14 @@ function Stock({ symbol, days, color }) {
       DAILY,
       days.length
     );
+
     AddDivident(divident);
     const SmaArray = await getTechnicalAnalysis(
       `${BACKEND_HOST}?Get,${SMA},${symbol}`,
       SMA
     );
     AddSma(SmaArray);
-  }, [symbol]);
+  }, symbol);
 
   return (
     <div style={{ backgroundColor: color, paddingBottom: 30 }}>
