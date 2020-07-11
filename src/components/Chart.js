@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Plot from "react-plotly.js";
 import { BACKEND_HOST, SMA, DAILY } from "../consts/CONST.js";
 import {
-  getDays,
   getTechnicalAnalysis,
   getTimeSeries,
   getDivedent,
@@ -11,7 +10,6 @@ import {
 } from "../functions/func.js";
 
 function Stock({ symbol, days, color }) {
-  const Date = getDays(days);
   const [Price, AddPrice] = useState([]);
   const [Sma, AddSma] = useState([]);
   const [Divident, AddDivident] = useState(0);
@@ -25,7 +23,7 @@ function Stock({ symbol, days, color }) {
     const divident = await getDivedent(
       `${BACKEND_HOST}?Get,${DAILY},${symbol}`,
       DAILY,
-      days
+      days.length
     );
     AddDivident(divident);
     const SmaArray = await getTechnicalAnalysis(
@@ -40,14 +38,14 @@ function Stock({ symbol, days, color }) {
       <Plot
         data={[
           {
-            x: Date,
+            x: days,
             y: Price,
             type: "scatter",
             marker: { color: "black" },
             name: "Stock",
           },
           {
-            x: Date,
+            x: days,
             y: Sma,
             type: "scatter",
             marker: { color: "green" },
@@ -65,7 +63,9 @@ function Stock({ symbol, days, color }) {
       />
       <div style={{ color: "red" }}>Bullish {getBullish(Price, days)}</div>
       <div style={{ color: "green" }}>Bearish {getBeerish(Price, days)}</div>
-      <div style={{ color: "black" }}>Divident {Divident}</div>
+      <div style={{ color: "black" }}>
+        Divident {Math.round((Divident + Number.EPSILON) * 100) / 100}
+      </div>
     </div>
   );
 }

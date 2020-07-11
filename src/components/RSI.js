@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Plot from "react-plotly.js";
 import { BACKEND_HOST, RSI } from "../consts/CONST.js";
-import { getDays, getTechnicalAnalysis } from "../functions/func.js";
-import axios from "axios";
+import { getTechnicalAnalysis } from "../functions/func.js";
 
 function Stock({ symbol, days, color }) {
-  const Date = getDays(days);
   const [Rsi, AddRsi] = useState([]);
 
   useEffect(async () => {
@@ -21,7 +19,7 @@ function Stock({ symbol, days, color }) {
       <Plot
         data={[
           {
-            x: Date,
+            x: days,
             y: Rsi,
             type: "scatter",
             marker: { color: "black" },
@@ -29,15 +27,15 @@ function Stock({ symbol, days, color }) {
           },
           {
             type: "line",
-            x: Date,
-            y: new Array(days).fill([30]).flat(),
+            x: days,
+            y: new Array(days.length).fill([30]).flat(),
             marker: { color: "#B8860B" },
             opacity: 0.5,
           },
           {
             type: "line",
-            x: Date,
-            y: new Array(days).fill([70]).flat(),
+            x: days,
+            y: new Array(days.length).fill([70]).flat(),
             marker: { color: "#B8860B" },
             opacity: 0.5,
           },

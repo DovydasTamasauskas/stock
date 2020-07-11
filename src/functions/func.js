@@ -39,7 +39,7 @@ export const getDivedent = async (endpoint, func, days) => {
     if (
       endpointData.data[`Time Series (${func})`][key]["7. dividend amount"] !==
         0 &&
-      days !== 0
+      days > 0
     ) {
       result += parseFloat(
         endpointData.data[`Time Series (${func})`][key]["7. dividend amount"]
