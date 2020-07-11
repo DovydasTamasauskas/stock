@@ -15,10 +15,59 @@ export const getDays = (days) => {
 };
 
 export const getTechnicalAnalysis = async (endpoint, func) => {
-  const result = await axios(endpoint);
-  var array = [];
-  for (var key in result.data[`Technical Analysis: ${func}`]) {
-    array.push(result.data[`Technical Analysis: ${func}`][key][func]);
+  const endpointData = await axios(endpoint);
+  var result = [];
+  for (var key in endpointData.data[`Technical Analysis: ${func}`]) {
+    result.push(endpointData.data[`Technical Analysis: ${func}`][key][func]);
   }
-  return array;
+  return result;
+};
+
+export const getTimeSeries = async (endpoint, func) => {
+  const endpointData = await axios(endpoint);
+  var result = [];
+  for (var key in endpointData.data[`Time Series (${func})`]) {
+    result.push(endpointData.data[`Time Series (${func})`][key]["1. open"]);
+  }
+  return result;
+};
+
+export const getDivedent = async (endpoint, func, days) => {
+  const endpointData = await axios(endpoint);
+  var result = 0;
+  for (var key in endpointData.data[`Time Series (${func})`]) {
+    if (
+      endpointData.data[`Time Series (${func})`][key]["7. dividend amount"] !==
+        0 &&
+      days !== 0
+    ) {
+      result += parseFloat(
+        endpointData.data[`Time Series (${func})`][key]["7. dividend amount"]
+      );
+    }
+    days--;
+  }
+  return result;
+};
+
+export const getBullish = (price, days) => {
+  var result = 0;
+  for (let i = 0; i < price.length - 1 && days != 0; i++) {
+    if (price[i] > price[i + 1]) {
+      result++;
+    }
+    days--;
+  }
+  return result;
+};
+
+export const getBeerish = (price, days) => {
+  var result = 0;
+  for (let i = 0; i < price.length - 1 && days != 0; i++) {
+    if (price[i] < price[i + 1]) {
+      result++;
+    }
+    days--;
+  }
+  return result;
 };
