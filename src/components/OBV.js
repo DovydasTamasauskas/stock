@@ -16,7 +16,7 @@ function Stock({ symbol, days, color }) {
   }, symbol);
 
   return (
-    <div style={{ backgroundColor: color, paddingBottom: 30 }}>
+    <div style={{ backgroundColor: color }}>
       <Plot
         data={[
           {

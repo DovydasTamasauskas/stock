@@ -23,7 +23,7 @@ function Stock({ symbol, days, color }) {
   }, symbol);
 
   return (
-    <div style={{ backgroundColor: color, paddingBottom: 30 }}>
+    <div style={{ backgroundColor: color }}>
       <Plot
         data={[
           {
@@ -61,7 +61,7 @@ function Stock({ symbol, days, color }) {
         ]}
         layout={{
           width: window.innerWidth,
-          height: 440,
+          height: 340,
           title: symbol + " " + MACD,
           plot_bgcolor: color,
           paper_bgcolor: color,

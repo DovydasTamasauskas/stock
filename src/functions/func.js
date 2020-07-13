@@ -67,6 +67,21 @@ export const getTimeSeries = async (endpoint, func) => {
   return result;
 };
 
+export const getTimeSeriesCandle = async (endpoint, func) => {
+  const endpointData = await axios(endpoint);
+  var open = [],
+    close = [],
+    high = [],
+    low = [];
+  for (var key in endpointData.data[`Time Series (${func})`]) {
+    open.push(endpointData.data[`Time Series (${func})`][key]["1. open"]);
+    close.push(endpointData.data[`Time Series (${func})`][key]["4. close"]);
+    high.push(endpointData.data[`Time Series (${func})`][key]["2. high"]);
+    low.push(endpointData.data[`Time Series (${func})`][key]["3. low"]);
+  }
+  return { open, close, high, low };
+};
+
 export const getDivedent = async (endpoint, func, days) => {
   const endpointData = await axios(endpoint);
   var result = 0;
@@ -85,24 +100,24 @@ export const getDivedent = async (endpoint, func, days) => {
   return result;
 };
 
-export const getBullish = (price, days) => {
-  var result = 0;
-  for (let i = 0; i < price.length - 1 && days !== 0; i++) {
-    if (price[i] > price[i + 1]) {
-      result++;
-    }
-    days--;
-  }
-  return result;
-};
+// export const getBullish = (price, days) => {
+//   var result = 0;
+//   for (let i = 0; i < price.length - 1 && days !== 0; i++) {
+//     if (price[i] > price[i + 1]) {
+//       result++;
+//     }
+//     days--;
+//   }
+//   return result;
+// };
 
-export const getBeerish = (price, days) => {
-  var result = 0;
-  for (let i = 0; i < price.length - 1 && days !== 0; i++) {
-    if (price[i] < price[i + 1]) {
-      result++;
-    }
-    days--;
-  }
-  return result;
-};
+// export const getBeerish = (price, days) => {
+//   var result = 0;
+//   for (let i = 0; i < price.length - 1 && days !== 0; i++) {
+//     if (price[i] < price[i + 1]) {
+//       result++;
+//     }
+//     days--;
+//   }
+//   return result;
+// };
