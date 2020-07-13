@@ -24,12 +24,7 @@
 			case 'Daily':
 				return $HOST.'query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='.$symbol.'&outputsize=compact&'.$API_KEY;
 				break;
-			case 'SMA':
-				return $HOST.'query?function=SMA&symbol='.$symbol.'&interval=daily&time_period=10&series_type=open&'.$API_KEY;
-				break;
-			case 'RSI':
-				return $HOST.'query?function=RSI&symbol='.$symbol.'&interval=daily&time_period=10&series_type=open&'.$API_KEY;
-				break;
 		}
+		return $HOST.'query?function='.$action.'&symbol='.$symbol.'&interval=daily&time_period=10&series_type=open&'.$API_KEY;
 	}
 ?>

@@ -23,6 +23,41 @@ export const getTechnicalAnalysis = async (endpoint, func) => {
   return result;
 };
 
+export const getTechnicalAnalysisMacd = async (endpoint, func) => {
+  const endpointData = await axios(endpoint);
+  var macd = [],
+    macdSignal = [],
+    macdHist = [];
+  for (var key in endpointData.data[`Technical Analysis: ${func}`]) {
+    macd.push(endpointData.data[`Technical Analysis: ${func}`][key][func]);
+    macdSignal.push(
+      endpointData.data[`Technical Analysis: ${func}`][key]["MACD_Signal"]
+    );
+    macdHist.push(
+      endpointData.data[`Technical Analysis: ${func}`][key]["MACD_Hist"]
+    );
+  }
+  return { macd, macdSignal, macdHist };
+};
+
+export const getMinusPlius = (macdHist) => {
+  var plius = [],
+    minus = [];
+  for (var i = 0; i < macdHist.length; i++) {
+    if (parseFloat(macdHist[i]) > 0) {
+      plius.push(macdHist[i]);
+      minus.push("0");
+    } else if (parseFloat(macdHist[i]) < 0) {
+      plius.push("0");
+      minus.push(macdHist[i]);
+    } else {
+      plius.push("0");
+      minus.push("0");
+    }
+  }
+  return { plius, minus };
+};
+
 export const getTimeSeries = async (endpoint, func) => {
   const endpointData = await axios(endpoint);
   var result = [];

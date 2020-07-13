@@ -25,6 +25,8 @@ function Stock({ symbol, days, color }) {
             type: "scatter",
             marker: { color: "black" },
             name: "RSI",
+
+            showlegend: false,
           },
           {
             type: "line",
@@ -32,6 +34,7 @@ function Stock({ symbol, days, color }) {
             y: new Array(days.length).fill([30]).flat(),
             marker: { color: "#B8860B" },
             opacity: 0.5,
+            showlegend: false,
           },
           {
             type: "line",
@@ -39,6 +42,7 @@ function Stock({ symbol, days, color }) {
             y: new Array(days.length).fill([70]).flat(),
             marker: { color: "#B8860B" },
             opacity: 0.5,
+            showlegend: false,
           },
         ]}
         layout={{
@@ -48,6 +52,7 @@ function Stock({ symbol, days, color }) {
           plot_bgcolor: color,
           paper_bgcolor: color,
         }}
+        config={{ displayModeBar: false }}
       />
     </div>
   );
