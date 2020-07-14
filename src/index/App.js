@@ -14,9 +14,9 @@ function App() {
 
   return (
     <div className="App">
-      Last updated: {days[0]}
       {STOCKS.map((stock, key) => (
-        <div key={key}>
+        <div key={key} style={{ backgroundColor: background(key) }}>
+          {stock}
           <ChartCandle symbol={stock} days={days} color={background(key)} />
           <Divident symbol={stock} days={days} color={background(key)} />
           <OBV symbol={stock} days={days} color={background(key)} />

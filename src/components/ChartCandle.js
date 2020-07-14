@@ -13,21 +13,25 @@ function Stock({ symbol, days, color }) {
   const [Low, AddLow] = useState([]);
   const [High, AddHigh] = useState([]);
   const [Sma, AddSma] = useState([]);
+  const [DaysOld, setDaysOld] = useState(0);
 
   useEffectAsync(async () => {
     const {
       stock: { open, close, high, low },
       SmaArray,
+      daysOld,
     } = await getData(symbol);
     AddOpen(open);
     AddClose(close);
     AddLow(low);
     AddHigh(high);
     AddSma(SmaArray);
+    setDaysOld(daysOld);
   }, symbol);
 
   return (
-    <div style={{ backgroundColor: color }}>
+    <div>
+      {DaysOld}
       <Plot
         data={[
           {
@@ -54,6 +58,12 @@ function Stock({ symbol, days, color }) {
           },
         ]}
         layout={{
+          margin: {
+            r: 50,
+            t: 15,
+            b: 10,
+            l: 50,
+          },
           width: window.innerWidth,
           height: 640,
           dragmode: "zoom",
@@ -76,7 +86,7 @@ function Stock({ symbol, days, color }) {
 }
 
 const getData = async (symbol) => {
-  const { open, close, high, low } = await getTimeSeriesCandle(
+  const { open, close, high, low, daysOld } = await getTimeSeriesCandle(
     `${BACKEND_HOST}?Get,${DAILY},${symbol}`,
     DAILY
   );
@@ -86,7 +96,7 @@ const getData = async (symbol) => {
     SMA
   );
 
-  return { stock: { open, close, high, low }, SmaArray };
+  return { stock: { open, close, high, low }, SmaArray, daysOld };
 };
 
 export default Stock;

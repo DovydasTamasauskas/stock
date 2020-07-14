@@ -79,7 +79,19 @@ export const getTimeSeriesCandle = async (endpoint, func) => {
     high.push(endpointData.data[`Time Series (${func})`][key]["2. high"]);
     low.push(endpointData.data[`Time Series (${func})`][key]["3. low"]);
   }
-  return { open, close, high, low };
+  var daysOld = 1;
+  while (
+    !endpointData.data[`Time Series (${func})`][getDateToString(daysOld)]
+  ) {
+    daysOld++;
+  }
+  return {
+    open,
+    close,
+    high,
+    low,
+    daysOld,
+  };
 };
 
 export const getDivedent = async (endpoint, func, days) => {
@@ -98,6 +110,20 @@ export const getDivedent = async (endpoint, func, days) => {
     days--;
   }
   return result;
+};
+
+const getDateToString = (minus) => {
+  var dateNow = new Date();
+  dateNow.setDate(dateNow.getDate() - minus);
+  return (
+    dateNow.getFullYear() +
+    "-" +
+    (dateNow.getMonth() > 9
+      ? dateNow.getMonth() + 1
+      : "0" + (dateNow.getMonth() + 1)) +
+    "-" +
+    dateNow.getDate()
+  );
 };
 
 // export const getBullish = (price, days) => {

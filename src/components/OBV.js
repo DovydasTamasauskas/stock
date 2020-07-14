@@ -16,7 +16,7 @@ function Stock({ symbol, days, color }) {
   }, symbol);
 
   return (
-    <div style={{ backgroundColor: color }}>
+    <div>
       <Plot
         data={[
           {
@@ -28,11 +28,25 @@ function Stock({ symbol, days, color }) {
           },
         ]}
         layout={{
+          margin: {
+            r: 50,
+            t: 15,
+            b: 10,
+            l: 50,
+          },
           width: window.innerWidth,
-          height: 240,
-          title: symbol,
+          height: 100,
           plot_bgcolor: color,
           paper_bgcolor: color,
+          xaxis: {
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+          },
+          yaxis: {
+            showline: false,
+            zeroline: false,
+          },
         }}
         config={{ displayModeBar: false }}
       />
