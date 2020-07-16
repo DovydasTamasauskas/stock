@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Divident from "../components/Divident";
 import ChartCandle from "../components/ChartCandle";
+import ChartCandleBBands from "../components/ChartCandleBBands";
 import RSI from "../components/RSI";
 import MACD from "../components/MACD";
 import OBV from "../components/OBV";
@@ -18,6 +19,11 @@ function App() {
         <div key={key} style={{ backgroundColor: background(key) }}>
           {stock}
           <ChartCandle symbol={stock} days={days} color={background(key)} />
+          <ChartCandleBBands
+            symbol={stock}
+            days={days}
+            color={background(key)}
+          />
           <Divident symbol={stock} days={days} color={background(key)} />
           <OBV symbol={stock} days={days} color={background(key)} />
           <RSI symbol={stock} days={days} color={background(key)} />

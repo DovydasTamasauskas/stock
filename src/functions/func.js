@@ -40,6 +40,25 @@ export const getTechnicalAnalysisMacd = async (endpoint, func) => {
   return { macd, macdSignal, macdHist };
 };
 
+export const getTechnicalAnalysisBBands = async (endpoint, func) => {
+  const endpointData = await axios(endpoint);
+  var lower = [],
+    middle = [],
+    upper = [];
+  for (var key in endpointData.data[`Technical Analysis: ${func}`]) {
+    lower.push(
+      endpointData.data[`Technical Analysis: ${func}`][key]["Real Lower Band"]
+    );
+    middle.push(
+      endpointData.data[`Technical Analysis: ${func}`][key]["Real Middle Band"]
+    );
+    upper.push(
+      endpointData.data[`Technical Analysis: ${func}`][key]["Real Upper Band"]
+    );
+  }
+  return { lower, middle, upper };
+};
+
 export const getMinusPlius = (macdHist) => {
   var plius = [],
     minus = [];
