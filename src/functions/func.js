@@ -99,10 +99,14 @@ export const getTimeSeriesCandle = async (endpoint, func) => {
     low.push(endpointData.data[`Time Series (${func})`][key]["3. low"]);
   }
   var daysOld = 1;
-  while (
-    !endpointData.data[`Time Series (${func})`][getDateToString(daysOld)]
-  ) {
-    daysOld++;
+  try {
+    while (
+      !endpointData.data[`Time Series (${func})`][getDateToString(daysOld)]
+    ) {
+      daysOld++;
+    }
+  } catch (e) {
+    daysOld = 0;
   }
   return {
     open,
@@ -145,24 +149,13 @@ const getDateToString = (minus) => {
   );
 };
 
-// export const getBullish = (price, days) => {
-//   var result = 0;
-//   for (let i = 0; i < price.length - 1 && days !== 0; i++) {
-//     if (price[i] > price[i + 1]) {
-//       result++;
-//     }
-//     days--;
-//   }
-//   return result;
-// };
-
-// export const getBeerish = (price, days) => {
-//   var result = 0;
-//   for (let i = 0; i < price.length - 1 && days !== 0; i++) {
-//     if (price[i] < price[i + 1]) {
-//       result++;
-//     }
-//     days--;
-//   }
-//   return result;
-// };
+export const findDuplicates = (arr) => {
+  let sorted_arr = arr.slice().sort();
+  let results = [];
+  for (let i = 0; i < sorted_arr.length - 1; i++) {
+    if (sorted_arr[i + 1] === sorted_arr[i]) {
+      results.push(sorted_arr[i]);
+    }
+  }
+  results.length !== 0 && console.log("duplicates stocks", results);
+};
