@@ -1,4 +1,14 @@
 import axios from "axios";
+import {
+  STOCKS,
+  DEFAULT_DAYS_LONG,
+  DEFAULT_PAGE_SIZE,
+  DAILY as _DAILY,
+  RSI as _RSI,
+  MACD as _MACD,
+  SMA as _SMA,
+  BACKEND_HOST,
+} from "../consts/CONST.js";
 
 export const getDays = (days) => {
   var date = new Date();
@@ -91,29 +101,21 @@ export const getTimeSeriesCandle = async (endpoint, func) => {
   var open = [],
     close = [],
     high = [],
-    low = [];
+    low = [],
+    lastUpdateDate = null;
   for (var key in endpointData.data[`Time Series (${func})`]) {
     open.push(endpointData.data[`Time Series (${func})`][key]["1. open"]);
     close.push(endpointData.data[`Time Series (${func})`][key]["4. close"]);
     high.push(endpointData.data[`Time Series (${func})`][key]["2. high"]);
     low.push(endpointData.data[`Time Series (${func})`][key]["3. low"]);
-  }
-  var daysOld = 1;
-  try {
-    while (
-      !endpointData.data[`Time Series (${func})`][getDateToString(daysOld)]
-    ) {
-      daysOld++;
-    }
-  } catch (e) {
-    daysOld = 0;
+    lastUpdateDate = lastUpdateDate == null ? key : lastUpdateDate;
   }
   return {
     open,
     close,
     high,
     low,
-    daysOld,
+    daysOld: lastUpdateDate,
   };
 };
 
@@ -159,3 +161,41 @@ export const findDuplicates = (arr) => {
   }
   results.length !== 0 && console.log("duplicates stocks", results);
 };
+
+export const getQueryParams = () => {
+  const queryStocks = parseToInteger(
+    new URLSearchParams(window.location.search).get("stocks")
+  );
+  return {
+    stocks: queryStocks,
+    days: new URLSearchParams(window.location.search).get("days"),
+    stock: new URLSearchParams(window.location.search).get("stock"),
+  };
+};
+
+const parseToInteger = (string) => {
+  const parsed = parseInt(string);
+  return isNaN(parsed) ? 0 : parsed;
+};
+
+export const background = (key) => (key % 2 === 0 ? "#DCDCDC" : "#A9A9A9");
+
+export const fetchData = (symbol) => {
+  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_DAILY},${symbol}`);
+  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_RSI},${symbol}`);
+  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_MACD},${symbol}`);
+  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_SMA},${symbol}`);
+};
+
+export const getStocksToShow = (params) =>
+  params.stock == null
+    ? STOCKS.slice(
+        params.stocks * DEFAULT_PAGE_SIZE,
+        (params.stocks + 1) * DEFAULT_PAGE_SIZE
+      )
+    : [params.stock];
+
+export const getChartDays = (QueryParams) =>
+  QueryParams.days > 50 && QueryParams.days < 365 * 15
+    ? getDays(QueryParams.days)
+    : getDays(DEFAULT_DAYS_LONG);

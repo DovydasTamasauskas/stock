@@ -1,18 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
+import axios from "axios";
 import Divident from "../components/Divident";
 import ChartCandle from "../components/ChartCandle";
 import ChartCandleBBands from "../components/ChartCandleBBands";
 import RSI from "../components/RSI";
 import MACD from "../components/MACD";
 import OBV from "../components/OBV";
-import { STOCKS } from "../consts/CONST.js";
-import { getDays, findDuplicates } from "../functions/func.js";
+import {
+  STOCKS,
+  DEFAULT_DAYS_LONG,
+  DEFAULT_PAGE_SIZE,
+  DAILY as _DAILY,
+  RSI as _RSI,
+  MACD as _MACD,
+  SMA as _SMA,
+  BACKEND_HOST,
+} from "../consts/CONST.js";
+import {
+  getDays,
+  getQueryParams,
+  background,
+  fetchData,
+  getStocksToShow,
+  getChartDays,
+} from "../functions/func.js";
 
 const showStock = (key, stock, days, background) => {
   return (
     <div key={key} style={{ backgroundColor: background(key) }}>
       {stock}
+      <div>
+        <a href="#" onClick={() => fetchData(stock)}>
+          Update Stock
+        </a>
+      </div>
       <ChartCandle symbol={stock} days={days} color={background(key)} />
       {/* <ChartCandleBBands symbol={stock} days={days} color={background(key)} /> */}
       {/* <Divident symbol={stock} days={days} color={background(key)} /> */}
@@ -24,21 +46,17 @@ const showStock = (key, stock, days, background) => {
 };
 
 function App() {
-  const background = (key) => (key % 2 === 0 ? "#DCDCDC" : "#A9A9A9");
-  var queryDays = new URLSearchParams(window.location.search).get("days");
-  var queryStocks = new URLSearchParams(window.location.search).get("stocks");
-
-  queryStocks = queryStocks === null ? 0 : parseInt(queryStocks);
-  findDuplicates(STOCKS);
-  const showStocks = STOCKS.slice(queryStocks * 5, (queryStocks + 1) * 5);
-  let days = getDays(100);
-  if (queryDays > 50 && queryDays < 365 * 15) {
-    days = getDays(queryDays);
-  }
+  const [QueryParams, SetQueryParams] = useState(getQueryParams);
+  const [Days, SetDays] = useState(getChartDays(QueryParams));
+  const [StocksToShow, SetStocksToShow] = useState(
+    getStocksToShow(QueryParams)
+  );
 
   return (
     <div className="App">
-      {showStocks.map((stock, key) => showStock(key, stock, days, background))}
+      {StocksToShow.map((stock, key) =>
+        showStock(key, stock, Days, background)
+      )}
     </div>
   );
 }

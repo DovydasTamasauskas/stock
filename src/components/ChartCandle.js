@@ -31,7 +31,8 @@ function Stock({ symbol, days, color }) {
 
   return (
     <div>
-      {DaysOld}
+      <div>{DaysOld}</div>
+      <div>{Close[0]}</div>
       <Plot
         data={[
           {
@@ -71,8 +72,6 @@ function Stock({ symbol, days, color }) {
           xaxis: {
             autorange: true,
             domain: [0, 1],
-            // range: ["2020-06-03 12:00", "2020-07-10 12:00"],
-            // rangeslider: { range: ["2020-01-10 12:00", "2020-07-10 12:00"] },
             title: "Date",
             type: "date",
           },

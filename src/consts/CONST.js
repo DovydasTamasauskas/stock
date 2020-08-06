@@ -8,6 +8,15 @@ export const RSI = "RSI";
 export const MACD = "MACD";
 export const OBV = "OBV";
 export const BBANDS = "BBANDS";
+
+export const DEFAULT_DAYS_LONG = 100;
+export const DEFAULT_PAGE_SIZE = 5;
+
+// export const DAILY_ENDPOINT = `${BACKEND_HOST}?HGJWFG4N8AQ66ICD,${DAILY}`;
+// export const RSI_ENDPOINT = `${BACKEND_HOST}?HGJWFG4N8AQ66ICD,${RSI}`;
+// export const MACD_ENDPOINT = `${BACKEND_HOST}?HGJWFG4N8AQ66ICD,${MACD}`;
+// export const SMA_ENDPOINT = `${BACKEND_HOST}?HGJWFG4N8AQ66ICD,${SMA}`;
+
 export const STOCKS = [
   "TSLA",
   "AAPL",
