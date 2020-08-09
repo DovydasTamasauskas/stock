@@ -10,7 +10,8 @@ function Stock({ symbol, days, color }) {
   useEffectAsync(async () => {
     const rsi = await getTechnicalAnalysis(
       `${BACKEND_HOST}?Get,${RSI},${symbol}`,
-      RSI
+      RSI,
+      symbol
     );
     AddRsi(rsi);
   }, symbol);

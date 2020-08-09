@@ -8,16 +8,6 @@ import RSI from "../components/RSI";
 import MACD from "../components/MACD";
 import OBV from "../components/OBV";
 import {
-  STOCKS,
-  DEFAULT_DAYS_LONG,
-  DEFAULT_PAGE_SIZE,
-  DAILY as _DAILY,
-  RSI as _RSI,
-  MACD as _MACD,
-  SMA as _SMA,
-  BACKEND_HOST,
-} from "../consts/CONST.js";
-import {
   getDays,
   getQueryParams,
   background,
@@ -29,12 +19,7 @@ import {
 const showStock = (key, stock, days, background) => {
   return (
     <div key={key} style={{ backgroundColor: background(key) }}>
-      {stock}
-      <div>
-        <a href="#" onClick={() => fetchData(stock)}>
-          Update Stock
-        </a>
-      </div>
+      <a onClick={() => fetchData(stock)}>{stock}</a>
       <ChartCandle symbol={stock} days={days} color={background(key)} />
       {/* <ChartCandleBBands symbol={stock} days={days} color={background(key)} /> */}
       {/* <Divident symbol={stock} days={days} color={background(key)} /> */}

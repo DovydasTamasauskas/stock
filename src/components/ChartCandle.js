@@ -4,6 +4,7 @@ import { BACKEND_HOST, SMA, DAILY } from "../consts/CONST.js";
 import {
   getTechnicalAnalysis,
   getTimeSeriesCandle,
+  getTechData2,
 } from "../functions/func.js";
 import useEffectAsync from "../helpers/useEffectAsync.js";
 
@@ -92,7 +93,8 @@ const getData = async (symbol) => {
 
   const SmaArray = await getTechnicalAnalysis(
     `${BACKEND_HOST}?Get,${SMA},${symbol}`,
-    SMA
+    SMA,
+    symbol
   );
 
   return { stock: { open, close, high, low }, SmaArray, daysOld };

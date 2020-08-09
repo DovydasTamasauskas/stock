@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Plot from "react-plotly.js";
 import { BACKEND_HOST, MACD } from "../consts/CONST.js";
-import { getTechnicalAnalysisMacd, getMinusPlius } from "../functions/func.js";
+import { getTechnicalAnalysis, getMinusPlius } from "../functions/func.js";
 import useEffectAsync from "../helpers/useEffectAsync.js";
 
 function Stock({ symbol, days, color }) {
@@ -11,10 +11,12 @@ function Stock({ symbol, days, color }) {
   const [Macd, AddMacd] = useState([]);
 
   useEffectAsync(async () => {
-    const { macd, macdSignal, macdHist } = await getTechnicalAnalysisMacd(
+    const { macd, macdSignal, macdHist } = await getTechnicalAnalysis(
       `${BACKEND_HOST}?Get,${MACD},${symbol}`,
-      MACD
+      MACD,
+      symbol
     );
+    // console.log(macd, macdSignal, macdHist);
     const { plius, minus } = getMinusPlius(macdHist);
     AddMacdHistPlius(plius);
     AddMacdHitMinus(minus);

@@ -10,7 +10,8 @@ export const OBV = "OBV";
 export const BBANDS = "BBANDS";
 
 export const DEFAULT_DAYS_LONG = 100;
-export const DEFAULT_PAGE_SIZE = 5;
+export const DEFAULT_PAGE_SIZE = 6;
+export const KEY = "VFJX12SNBPEWKHQB";
 
 // export const DAILY_ENDPOINT = `${BACKEND_HOST}?HGJWFG4N8AQ66ICD,${DAILY}`;
 // export const RSI_ENDPOINT = `${BACKEND_HOST}?HGJWFG4N8AQ66ICD,${RSI}`;
@@ -22,6 +23,8 @@ export const STOCKS = [
   "AAPL",
   "AMZN",
   "GOOGL",
+  "FB",
+  "MMM",
   "DIS",
   "FOXA",
   "MCD",
@@ -29,7 +32,6 @@ export const STOCKS = [
   "WFC",
   "XOM",
   "KO",
-  "FB",
   "T",
   "BA",
   "DAL",
@@ -53,7 +55,6 @@ export const STOCKS = [
   "NIO",
   "GILD",
   "GE",
-  "MMM",
   "BKNG",
   "GRPN",
   "AMRX",

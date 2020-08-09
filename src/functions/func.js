@@ -8,6 +8,7 @@ import {
   MACD as _MACD,
   SMA as _SMA,
   BACKEND_HOST,
+  KEY,
 } from "../consts/CONST.js";
 
 export const getDays = (days) => {
@@ -24,14 +25,41 @@ export const getDays = (days) => {
   return result;
 };
 
-export const getTechnicalAnalysis = async (endpoint, func) => {
-  const endpointData = await axios(endpoint);
-  var result = [];
-  for (var key in endpointData.data[`Technical Analysis: ${func}`]) {
-    result.push(endpointData.data[`Technical Analysis: ${func}`][key][func]);
-  }
-  return result;
+export const getTechnicalAnalysis = async (endpoint, indicator, stock) => {
+  const techAnalys = parseTechData(indicator);
+  return axios(endpoint)
+    .then((res) =>
+      Object.values(res.data[`Technical Analysis: ${indicator}`]).map(
+        techAnalys
+      )
+    )
+    .then((res) =>
+      isFloat(res)
+        ? res
+        : {
+            macdSignal: Object.values(res).map((x) => x["MACD_Signal"]),
+            macdHist: Object.values(res).map((x) => x["MACD_Hist"]),
+            macd: Object.values(res).map((x) => x["MACD"]),
+          }
+    )
+    .catch(() => {
+      console.log(indicator);
+      axios(`${BACKEND_HOST}?${KEY},${indicator},${stock}`);
+    });
 };
+
+const parseTechData = (indicator) => {
+  switch (indicator) {
+    case _RSI:
+      return (x) => x[indicator];
+    case _SMA:
+      return (x) => x[indicator];
+    case _MACD:
+      return (x) => x;
+  }
+};
+
+const isFloat = (res) => !isNaN(parseFloat(Object.values(res)[0]));
 
 export const getTechnicalAnalysisMacd = async (endpoint, func) => {
   const endpointData = await axios(endpoint);
@@ -185,6 +213,7 @@ export const fetchData = (symbol) => {
   axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_RSI},${symbol}`);
   axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_MACD},${symbol}`);
   axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_SMA},${symbol}`);
+  window.location.reload(false);
 };
 
 export const getStocksToShow = (params) =>

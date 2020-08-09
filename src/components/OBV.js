@@ -10,7 +10,8 @@ function Stock({ symbol, days, color }) {
   useEffectAsync(async () => {
     const obv = await getTechnicalAnalysis(
       `${BACKEND_HOST}?Get,${OBV},${symbol}`,
-      OBV
+      OBV,
+      symbol
     );
     AddObv(obv);
   }, symbol);
