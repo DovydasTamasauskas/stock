@@ -165,20 +165,6 @@ export const getDivedent = async (endpoint, func, days) => {
   return result;
 };
 
-const getDateToString = (minus) => {
-  var dateNow = new Date();
-  dateNow.setDate(dateNow.getDate() - minus);
-  return (
-    dateNow.getFullYear() +
-    "-" +
-    (dateNow.getMonth() > 9
-      ? dateNow.getMonth() + 1
-      : "0" + (dateNow.getMonth() + 1)) +
-    "-" +
-    dateNow.getDate()
-  );
-};
-
 export const findDuplicates = (arr) => {
   let sorted_arr = arr.slice().sort();
   let results = [];
