@@ -4,6 +4,7 @@ import { BACKEND_HOST, SMA, DAILY } from "../consts/CONST.js";
 import {
   getTechnicalAnalysis,
   getTimeSeriesCandle,
+  calculateAnalysis,
 } from "../functions/func.js";
 import useEffectAsync from "../helpers/useEffectAsync.js";
 
@@ -14,7 +15,7 @@ function Stock({ symbol, days, color }) {
   const [High, AddHigh] = useState([]);
   const [Sma, AddSma] = useState([]);
   const [DaysOld, setDaysOld] = useState(0);
-  const [AA, AddAA] = useState([]);
+  const [Analysis, AddAnalysis] = useState([]);
 
   useEffectAsync(async () => {
     const {
@@ -28,14 +29,27 @@ function Stock({ symbol, days, color }) {
     AddHigh(high);
     AddSma(SmaArray);
     setDaysOld(daysOld);
-    AddAA(aaa(open));
+    AddAnalysis(calculateAnalysis(open, close));
   }, symbol);
 
   return (
     <div>
       <div>{DaysOld}</div>
       <div>{Close[0]}</div>
-      <div>{AA.length !== 0 && AA.map((x, key) => renderUpDown(x, key))}</div>
+      <div>
+        open:{" "}
+        {!!Analysis.open && Analysis.open.map((x, key) => renderUpDown(x, key))}
+      </div>
+      <div>
+        close:{" "}
+        {!!Analysis.close &&
+          Analysis.close.map((x, key) => renderUpDown(x, key))}
+      </div>
+      <div>
+        chart:{" "}
+        {!!Analysis.chart &&
+          Analysis.chart.map((x, key) => renderUpDown(x, key))}
+      </div>
       <Plot
         data={[
           {
@@ -117,34 +131,6 @@ const getData = async (symbol) => {
   );
 
   return { stock: { open, close, high, low }, SmaArray, daysOld };
-};
-
-const aaa = (chart) => {
-  var isUp = undefined;
-  var result = [];
-  var days;
-  for (var i = 0; i < 30; i++) {
-    if (chart[i] > chart[i + 1]) {
-      if (isUp === true) {
-        days = result[result.length - 1].days + 1;
-        result.pop();
-        result.push({ days: days, indicator: "up" });
-      } else {
-        result.push({ days: 1, indicator: "up" });
-      }
-      isUp = true;
-    } else {
-      if (isUp === false) {
-        days = result[result.length - 1].days + 1;
-        result.pop();
-        result.push({ days: days, indicator: "down" });
-      } else {
-        result.push({ days: 1, indicator: "down" });
-      }
-      isUp = false;
-    }
-  }
-  return result;
 };
 
 export default Stock;

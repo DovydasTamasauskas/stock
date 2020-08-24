@@ -15,6 +15,7 @@ import {
   getStocksToShow,
   getChartDays,
 } from "../functions/func.js";
+import useEffectAsync from "../helpers/useEffectAsync.js";
 
 const showStock = (key, stock, days, background) => {
   return (
@@ -33,15 +34,19 @@ const showStock = (key, stock, days, background) => {
 function App() {
   const [QueryParams, SetQueryParams] = useState(getQueryParams);
   const [Days, SetDays] = useState(getChartDays(QueryParams));
-  const [StocksToShow, SetStocksToShow] = useState(
-    getStocksToShow(QueryParams)
-  );
+  const [StocksToShow, SetStocksToShow] = useState();
+
+  useEffectAsync(async () => {
+    const data = await getStocksToShow(QueryParams);
+    SetStocksToShow(data);
+  });
 
   return (
     <div className="App">
-      {StocksToShow.map((stock, key) =>
-        showStock(key, stock, Days, background)
-      )}
+      {!!StocksToShow &&
+        StocksToShow.map(
+          (stock, key) => stock != "" && showStock(key, stock, Days, background)
+        )}
     </div>
   );
 }

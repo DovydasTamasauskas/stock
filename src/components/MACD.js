@@ -16,7 +16,6 @@ function Stock({ symbol, days, color }) {
       MACD,
       symbol
     );
-    // console.log(macd, macdSignal, macdHist);
     const { plius, minus } = getMinusPlius(macdHist);
     AddMacdHistPlius(plius);
     AddMacdHitMinus(minus);

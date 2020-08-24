@@ -45,6 +45,7 @@ export const getTechnicalAnalysis = async (endpoint, indicator, stock) => {
     .catch(() => {
       console.log(indicator);
       axios(`${BACKEND_HOST}?${KEY},${indicator},${stock}`);
+      return { macdSignal: [], macdHist: [], macd: [] };
     });
 };
 
@@ -184,6 +185,8 @@ export const getQueryParams = () => {
     stocks: queryStocks,
     days: new URLSearchParams(window.location.search).get("days"),
     stock: new URLSearchParams(window.location.search).get("stock"),
+    all: new URLSearchParams(window.location.search).get("all"),
+    low: new URLSearchParams(window.location.search).get("low"),
   };
 };
 
@@ -202,15 +205,93 @@ export const fetchData = (symbol) => {
   window.location.reload(false);
 };
 
-export const getStocksToShow = (params) =>
-  params.stock == null
-    ? STOCKS.slice(
-        params.stocks * DEFAULT_PAGE_SIZE,
-        (params.stocks + 1) * DEFAULT_PAGE_SIZE
-      )
-    : [params.stock];
+export const getStocksToShow = async (params) => {
+  if (params.stock != null) {
+    return [params.stock];
+  }
+
+  if (params.low != null) {
+    const endpointData = await axios(
+      "http://www.database.lavina.lt/?Get,Analysis,RSI"
+    );
+    return endpointData.data.split("-");
+  }
+
+  if (params.all != null) {
+    return STOCKS;
+  }
+
+  return STOCKS.slice(
+    params.stocks * DEFAULT_PAGE_SIZE,
+    (params.stocks + 1) * DEFAULT_PAGE_SIZE
+  );
+};
 
 export const getChartDays = (QueryParams) =>
   QueryParams.days > 50 && QueryParams.days < 365 * 15
     ? getDays(QueryParams.days)
     : getDays(DEFAULT_DAYS_LONG);
+
+export const calculateAnalysis = (open, close) => {
+  return {
+    open: calculate(open),
+    close: calculate(close),
+    chart: calculateChart(open, close),
+  };
+};
+
+const calculate = (chart) => {
+  var isUp = undefined;
+  var result = [];
+  var days;
+  for (var i = 0; i < 30; i++) {
+    if (chart[i] > chart[i + 1]) {
+      if (isUp === true) {
+        days = result[result.length - 1].days + 1;
+        result.pop();
+        result.push({ days: days, indicator: "up" });
+      } else {
+        result.push({ days: 1, indicator: "up" });
+      }
+      isUp = true;
+    } else {
+      if (isUp === false) {
+        days = result[result.length - 1].days + 1;
+        result.pop();
+        result.push({ days: days, indicator: "down" });
+      } else {
+        result.push({ days: 1, indicator: "down" });
+      }
+      isUp = false;
+    }
+  }
+  return result;
+};
+
+const calculateChart = (open, close) => {
+  var isUp = undefined;
+  var result = [];
+  var days;
+  for (var i = 0; i < 30; i++) {
+    if (open[i] < close[i]) {
+      if (isUp === true) {
+        days = result[result.length - 1].days + 1;
+        result.pop();
+        result.push({ days: days, indicator: "up" });
+      } else {
+        result.push({ days: 1, indicator: "up" });
+      }
+      isUp = true;
+    } else {
+      if (isUp === false) {
+        days = result[result.length - 1].days + 1;
+        result.pop();
+        result.push({ days: days, indicator: "down" });
+      } else {
+        result.push({ days: 1, indicator: "down" });
+      }
+      isUp = false;
+    }
+  }
+  return result;
+};
