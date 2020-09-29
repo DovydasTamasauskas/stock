@@ -7,6 +7,7 @@ import axios from "axios";
 import { STOCKS } from "../../consts/CONST";
 export default function FixedTags() {
   const [value, setValue] = React.useState([]);
+  const [onChange, setOnChange] = React.useState(false);
   React.useEffect(async () => {
     const result = await axios(
       `http://www.database.lavina.lt/?Get,Analysis,WatchList`
@@ -15,9 +16,11 @@ export default function FixedTags() {
   }, []);
 
   React.useEffect(() => {
-    axios(
-      `http://www.database.lavina.lt/?Set,Analysis,WatchList,` + value.join("-")
-    );
+    onChange &&
+      axios(
+        `http://www.database.lavina.lt/?Set,Analysis,WatchList,` +
+          value.join("-")
+      );
   }, [value]);
   return (
     <Autocomplete
@@ -26,6 +29,7 @@ export default function FixedTags() {
       value={value}
       onChange={(event, newValue) => {
         setValue([...newValue]);
+        setOnChange(true);
       }}
       options={STOCKS}
       getOptionLabel={(option) => option}

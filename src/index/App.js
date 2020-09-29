@@ -42,21 +42,13 @@ function App() {
     SetStocksToShow(data);
   });
 
-  // const [aaa, setAaa] = useState(<>a</>);
-  // React.useEffect(async () => {
-  //   const result = await axios(
-  //     `http://www.database.lavina.lt/?Get,Analysis,WatchList`
-  //   );
-  //   // console.log(result.data.split("-"));
-  //   setAaa(<WatchList list={result.data} />);
-  // }, []);
   return (
     <div className="App">
       <WatchList />
-      {/* {!!StocksToShow &&
+      {!!StocksToShow &&
         StocksToShow.map(
           (stock, key) => stock != "" && showStock(key, stock, Days, background)
-        )} */}
+        )}
     </div>
   );
 }

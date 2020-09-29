@@ -50,12 +50,10 @@ export const getTechnicalAnalysis = async (endpoint, indicator, stock) => {
 
 const parseTechData = (indicator) => {
   switch (indicator) {
-    case _RSI:
-      return (x) => x[indicator];
-    case _SMA:
-      return (x) => x[indicator];
     case _MACD:
       return (x) => x;
+    default:
+      return (x) => x[indicator];
   }
 };
 
@@ -207,6 +205,10 @@ export const fetchData = (symbol) => {
 export const getStocksToShow = async (params) => {
   if (params.analysis !== null) {
     const endpointData = await axios(
+      `http://www.database.lavina.lt/?Get,Analysis,${params.analysis}`
+    );
+    console.log(
+      "link",
       `http://www.database.lavina.lt/?Get,Analysis,${params.analysis}`
     );
     return endpointData.data.split("-");

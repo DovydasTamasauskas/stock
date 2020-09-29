@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Plot from "react-plotly.js";
-import { BACKEND_HOST, SMA, DAILY } from "../consts/CONST.js";
+import { BACKEND_HOST, SMA, EMA, DAILY } from "../consts/CONST.js";
 import {
   getTechnicalAnalysis,
   getTimeSeriesCandle,
@@ -14,6 +14,7 @@ function Stock({ symbol, days, color }) {
   const [Low, AddLow] = useState([]);
   const [High, AddHigh] = useState([]);
   const [Sma, AddSma] = useState([]);
+  const [Ema, AddEma] = useState([]);
   const [DaysOld, setDaysOld] = useState(0);
   const [Analysis, AddAnalysis] = useState([]);
 
@@ -21,6 +22,7 @@ function Stock({ symbol, days, color }) {
     const {
       stock: { open, close, high, low },
       SmaArray,
+      EmaArray,
       daysOld,
     } = await getData(symbol);
     AddOpen(open);
@@ -28,6 +30,7 @@ function Stock({ symbol, days, color }) {
     AddLow(low);
     AddHigh(high);
     AddSma(SmaArray);
+    AddEma(EmaArray);
     setDaysOld(daysOld);
     AddAnalysis(calculateAnalysis(open, close));
   }, symbol);
@@ -70,6 +73,15 @@ function Stock({ symbol, days, color }) {
             y: Sma,
             type: "scatter",
             marker: { color: "black" },
+            name: "SMA",
+            opacity: 0.5,
+            showlegend: false,
+          },
+          {
+            x: days,
+            y: Ema,
+            type: "scatter",
+            marker: { color: "green" },
             name: "SMA",
             opacity: 0.5,
             showlegend: false,
@@ -130,7 +142,13 @@ const getData = async (symbol) => {
     symbol
   );
 
-  return { stock: { open, close, high, low }, SmaArray, daysOld };
+  const EmaArray = await getTechnicalAnalysis(
+    `${BACKEND_HOST}?Get,${EMA},${symbol}`,
+    EMA,
+    symbol
+  );
+
+  return { stock: { open, close, high, low }, SmaArray, EmaArray, daysOld };
 };
 
 export default Stock;

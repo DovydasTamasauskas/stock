@@ -5,20 +5,14 @@
 	//$API_KEY = 'apikey=ODCZDB41I8JYJNTV';
 	$HOST = 'https://www.alphavantage.co/';
 	$pieces = explode(",", $_SERVER['QUERY_STRING']);
-	if($pieces[0] == 'Ping'){
-		$dir = $pieces[1]."/".$pieces[2].".txt";
-		$myfile = fopen($pieces[1]."/".$pieces[2].".txt", "r") or die("Unable to open file!");
-		echo fread($myfile,filesize($pieces[1]."/".$pieces[2].".txt"));
-		fclose($myfile);
-	}else if($pieces[0] == 'Get'){
+    if($pieces[0] == 'Get'){
 		$dir = $pieces[1]."/".$pieces[2].".txt";
 		$myfile = fopen($pieces[1]."/".$pieces[2].".txt", "r") or die("Unable to open file!");
 		echo fread($myfile,filesize($pieces[1]."/".$pieces[2].".txt"));
 		fclose($myfile);
 	}else if($pieces[0] == 'Set'){
 		$dir = $pieces[1]."/".$pieces[2].".txt";
-		if (!is_dir($pieces[1]))
-		{
+		if (!is_dir($pieces[1])){
 			mkdir($pieces[1], 0755, true);
 		}
 		$myfile = fopen($dir, "w") or die("Unable to open file!");
@@ -42,6 +36,9 @@
 		switch ($action) {
 			case 'Daily':
 				return $HOST.'query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='.$symbol.'&outputsize=full&apikey='.$API_KEY;
+				break;
+			case 'SMA':
+				return $HOST.'query?function='.$action.'&symbol='.$symbol.'&interval=monthly&time_period=10&series_type=open&apikey='.$API_KEY;
 				break;
 		}
 		return $HOST.'query?function='.$action.'&symbol='.$symbol.'&interval=daily&time_period=10&series_type=open&apikey='.$API_KEY;

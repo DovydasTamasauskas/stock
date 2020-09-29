@@ -4,6 +4,7 @@
 export const BACKEND_HOST = "http://www.database.lavina.lt";
 export const DAILY = "Daily";
 export const SMA = "SMA";
+export const EMA = "EMA";
 export const RSI = "RSI";
 export const MACD = "MACD";
 export const OBV = "OBV";
