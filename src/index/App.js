@@ -7,6 +7,7 @@ import ChartCandleBBands from "../components/ChartCandleBBands";
 import RSI from "../components/RSI";
 import MACD from "../components/MACD";
 import OBV from "../components/OBV";
+import WatchList from "../components/WatchList/watchList";
 import {
   getDays,
   getQueryParams,
@@ -41,12 +42,21 @@ function App() {
     SetStocksToShow(data);
   });
 
+  // const [aaa, setAaa] = useState(<>a</>);
+  // React.useEffect(async () => {
+  //   const result = await axios(
+  //     `http://www.database.lavina.lt/?Get,Analysis,WatchList`
+  //   );
+  //   // console.log(result.data.split("-"));
+  //   setAaa(<WatchList list={result.data} />);
+  // }, []);
   return (
     <div className="App">
-      {!!StocksToShow &&
+      <WatchList />
+      {/* {!!StocksToShow &&
         StocksToShow.map(
           (stock, key) => stock != "" && showStock(key, stock, Days, background)
-        )}
+        )} */}
     </div>
   );
 }

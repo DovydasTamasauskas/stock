@@ -5,7 +5,12 @@
 	//$API_KEY = 'apikey=ODCZDB41I8JYJNTV';
 	$HOST = 'https://www.alphavantage.co/';
 	$pieces = explode(",", $_SERVER['QUERY_STRING']);
-	if($pieces[0] == 'Get'){
+	if($pieces[0] == 'Ping'){
+		$dir = $pieces[1]."/".$pieces[2].".txt";
+		$myfile = fopen($pieces[1]."/".$pieces[2].".txt", "r") or die("Unable to open file!");
+		echo fread($myfile,filesize($pieces[1]."/".$pieces[2].".txt"));
+		fclose($myfile);
+	}else if($pieces[0] == 'Get'){
 		$dir = $pieces[1]."/".$pieces[2].".txt";
 		$myfile = fopen($pieces[1]."/".$pieces[2].".txt", "r") or die("Unable to open file!");
 		echo fread($myfile,filesize($pieces[1]."/".$pieces[2].".txt"));

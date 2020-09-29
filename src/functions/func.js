@@ -44,7 +44,6 @@ export const getTechnicalAnalysis = async (endpoint, indicator, stock) => {
     )
     .catch(() => {
       console.log(indicator);
-      axios(`${BACKEND_HOST}?${KEY},${indicator},${stock}`);
       return { macdSignal: [], macdHist: [], macd: [] };
     });
 };
@@ -186,7 +185,7 @@ export const getQueryParams = () => {
     days: new URLSearchParams(window.location.search).get("days"),
     stock: new URLSearchParams(window.location.search).get("stock"),
     all: new URLSearchParams(window.location.search).get("all"),
-    low: new URLSearchParams(window.location.search).get("low"),
+    analysis: new URLSearchParams(window.location.search).get("analysis"),
   };
 };
 
@@ -206,18 +205,18 @@ export const fetchData = (symbol) => {
 };
 
 export const getStocksToShow = async (params) => {
-  if (params.stock != null) {
-    return [params.stock];
-  }
-
-  if (params.low != null) {
+  if (params.analysis !== null) {
     const endpointData = await axios(
-      "http://www.database.lavina.lt/?Get,Analysis,RSI"
+      `http://www.database.lavina.lt/?Get,Analysis,${params.analysis}`
     );
     return endpointData.data.split("-");
   }
 
-  if (params.all != null) {
+  if (params.stock !== null) {
+    return [params.stock];
+  }
+
+  if (params.all !== null) {
     return STOCKS;
   }
 
