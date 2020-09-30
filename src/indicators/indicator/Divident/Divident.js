@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { BACKEND_HOST, DAILY } from "./consts/CONST.js";
-import { getDivedent } from "../functions/func.js";
-import useEffectAsync from "../helpers/useEffectAsync.js";
+import { BACKEND_HOST, DAILY } from "../../consts/CONST.js";
+import { getDivedent } from "../../functions/func.js";
+import useEffectAsync from "../../helpers/useEffectAsync.js";
 
 function Stock({ symbol, days, color }) {
   const [Divident, AddDivident] = useState(0);

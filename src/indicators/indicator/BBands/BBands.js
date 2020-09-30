@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Plot from "react-plotly.js";
-import { BACKEND_HOST, DAILY, BBANDS } from "../consts/CONST.js";
+import { BACKEND_HOST, DAILY, BBANDS } from "../../consts/CONST.js";
 import {
   getTechnicalAnalysisBBands,
   getTimeSeriesCandle,
-} from "../functions/func.js";
-import useEffectAsync from "../helpers/useEffectAsync.js";
+} from "../../functions/func.js";
+import useEffectAsync from "../../helpers/useEffectAsync.js";
 
 function Stock({ symbol, days, color }) {
   const [Open, AddOpen] = useState([]);

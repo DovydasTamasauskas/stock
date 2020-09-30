@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Plot from "react-plotly.js";
-import { BACKEND_HOST, OBV } from "../consts/CONST.js";
-import { getTechnicalAnalysis } from "../functions/func.js";
-import useEffectAsync from "../helpers/useEffectAsync.js";
+import { BACKEND_HOST, OBV } from "../../consts/CONST.js";
+import { getTechnicalAnalysis } from "../../functions/func.js";
+import useEffectAsync from "../../helpers/useEffectAsync.js";
 
 function Stock({ symbol, days, color }) {
   const [Obv, AddObv] = useState([]);

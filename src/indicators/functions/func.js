@@ -8,7 +8,6 @@ import {
   MACD as _MACD,
   SMA as _SMA,
   BACKEND_HOST,
-  KEY,
 } from "../consts/CONST.js";
 
 export const getDays = (days) => {

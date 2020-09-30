@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 import "./App.css";
-// import Divident from "../indicators/Divident";
-import ChartCandle from "../indicators/indicator/ChartCandle";
-// import ChartCandleBBands from "../indicators/ChartCandleBBands";
-import RSI from "../indicators/indicator/RSI";
-import MACD from "../indicators/indicator/MACD";
-// import OBV from "../indicators/OBV";
+import {
+  // BBands,
+  Candle,
+  // Divident,
+  MACD,
+  // OBV,
+  RSI,
+} from "../indicators/indicator";
+
 import WatchList from "../components/WatchList/watchList";
 import {
-  getDays,
   getQueryParams,
   background,
   fetchData,
@@ -23,8 +25,8 @@ const showStock = (key, stock, days, background) => {
   return (
     <div key={key} style={{ backgroundColor: background(key) }}>
       <a onClick={() => fetchData(stock)}>{stock}</a>
-      <ChartCandle symbol={stock} days={days} color={background(key)} />
-      {/* <ChartCandleBBands symbol={stock} days={days} color={background(key)} /> */}
+      <Candle symbol={stock} days={days} color={background(key)} />
+      {/* <BBands symbol={stock} days={days} color={background(key)} /> */}
       {/* <Divident symbol={stock} days={days} color={background(key)} /> */}
       {/* <OBV symbol={stock} days={days} color={background(key)} /> */}
       <RSI symbol={stock} days={days} color={background(key)} />
@@ -34,8 +36,8 @@ const showStock = (key, stock, days, background) => {
 };
 
 function App() {
-  const [QueryParams, SetQueryParams] = useState(getQueryParams);
-  const [Days, SetDays] = useState(getChartDays(QueryParams));
+  const [QueryParams] = useState(getQueryParams);
+  const [Days] = useState(getChartDays(QueryParams));
   const [StocksToShow, SetStocksToShow] = useState();
 
   useEffectAsync(async () => {
@@ -48,7 +50,8 @@ function App() {
       <WatchList />
       {!!StocksToShow &&
         StocksToShow.map(
-          (stock, key) => stock != "" && showStock(key, stock, Days, background)
+          (stock, key) =>
+            stock !== "" && showStock(key, stock, Days, background)
         )}
     </div>
   );

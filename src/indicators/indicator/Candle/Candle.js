@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Plot from "react-plotly.js";
-import { BACKEND_HOST, SMA, EMA, DAILY } from "../consts/CONST.js";
+import { BACKEND_HOST, SMA, EMA, DAILY } from "../../consts/CONST.js";
 import {
   getTechnicalAnalysis,
   getTimeSeriesCandle,
   calculateAnalysis,
-} from "../functions/func.js";
-import useEffectAsync from "../helpers/useEffectAsync.js";
+} from "../../functions/func.js";
+import useEffectAsync from "../../helpers/useEffectAsync.js";
 
 function Stock({ symbol, days, color }) {
   const [Open, AddOpen] = useState([]);
@@ -113,19 +113,17 @@ function Stock({ symbol, days, color }) {
   );
 }
 
-const renderUpDown = (data, key) => {
-  return (
-    <a
-      key={key}
-      style={{
-        color: getIndicatorColor(data.indicator),
-        fontSize: 10 + data.days * 3,
-      }}
-    >
-      {data.days}
-    </a>
-  );
-};
+const renderUpDown = (data, key) => (
+  <a
+    key={key}
+    style={{
+      color: getIndicatorColor(data.indicator),
+      fontSize: 10 + data.days * 3,
+    }}
+  >
+    {data.days}
+  </a>
+);
 
 const getIndicatorColor = (indicator) =>
   indicator === "up" ? "#228B22" : "#B22222";
