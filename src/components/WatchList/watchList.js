@@ -1,13 +1,14 @@
 /* eslint-disable no-use-before-define */
 import React from "react";
+import axios from "axios";
 import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import axios from "axios";
-import { STOCKS } from "../../consts/CONST";
-export default function FixedTags() {
+
+import { STOCKS } from "../../indicators/consts/CONST";
+
+const WatchList = () => {
   const [value, setValue] = React.useState([]);
-  const [onChange, setOnChange] = React.useState(false);
   React.useEffect(async () => {
     const result = await axios(
       `http://www.database.lavina.lt/?Get,Analysis,WatchList`
@@ -16,7 +17,7 @@ export default function FixedTags() {
   }, []);
 
   React.useEffect(() => {
-    onChange &&
+    value.length > 0 &&
       axios(
         `http://www.database.lavina.lt/?Set,Analysis,WatchList,` +
           value.join("-")
@@ -25,11 +26,9 @@ export default function FixedTags() {
   return (
     <Autocomplete
       multiple
-      id="fixed-tags-demo"
       value={value}
       onChange={(event, newValue) => {
         setValue([...newValue]);
-        setOnChange(true);
       }}
       options={STOCKS}
       getOptionLabel={(option) => option}
@@ -49,4 +48,6 @@ export default function FixedTags() {
       )}
     />
   );
-}
+};
+
+export default WatchList;

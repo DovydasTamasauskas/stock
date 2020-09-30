@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import "./App.css";
 import axios from "axios";
-import Divident from "../components/Divident";
-import ChartCandle from "../components/ChartCandle";
-import ChartCandleBBands from "../components/ChartCandleBBands";
-import RSI from "../components/RSI";
-import MACD from "../components/MACD";
-import OBV from "../components/OBV";
+
+import "./App.css";
+// import Divident from "../indicators/Divident";
+import ChartCandle from "../indicators/indicator/ChartCandle";
+// import ChartCandleBBands from "../indicators/ChartCandleBBands";
+import RSI from "../indicators/indicator/RSI";
+import MACD from "../indicators/indicator/MACD";
+// import OBV from "../indicators/OBV";
 import WatchList from "../components/WatchList/watchList";
 import {
   getDays,
@@ -15,8 +16,8 @@ import {
   fetchData,
   getStocksToShow,
   getChartDays,
-} from "../functions/func.js";
-import useEffectAsync from "../helpers/useEffectAsync.js";
+} from "../indicators/functions/func.js";
+import useEffectAsync from "../indicators/helpers/useEffectAsync.js";
 
 const showStock = (key, stock, days, background) => {
   return (
