@@ -86,7 +86,7 @@ function Stock({ symbol, days, color }) {
             y: Ema,
             type: "scatter",
             marker: { color: "green" },
-            name: "SMA",
+            name: "EMA",
             opacity: 0.5,
             showlegend: false,
           },

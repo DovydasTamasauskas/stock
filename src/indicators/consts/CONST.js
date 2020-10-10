@@ -9,6 +9,7 @@ export const RSI = "RSI";
 export const MACD = "MACD";
 export const OBV = "OBV";
 export const BBANDS = "BBANDS";
+export const HOST = window.location.hostname === "localhost" ? "http://localhost:3000" : "http://www.zodis2.lavina.lt";
 
 export const DEFAULT_DAYS_LONG = 100;
 export const DEFAULT_PAGE_SIZE = 6;

@@ -37,7 +37,6 @@ const WatchList = () => {
           <Chip label={option} {...getTagProps({ index })} />
         ))
       }
-      style={{ width: 500 }}
       renderInput={(params) => (
         <TextField
           {...params}
