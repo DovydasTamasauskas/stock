@@ -10,6 +10,16 @@ import {
   BACKEND_HOST,
 } from "../consts/CONST.js";
 
+export const isUpToDay = (d) => {
+  var date = new Date();
+  var weekDay = date.getDay();
+  var add = 0;
+  add += weekDay === 7 ? 1 : 0;
+  add += weekDay === 1 ? 2 : 0;
+
+  return new Date(d).getDate()+1 === date.getDate()-add;
+}
+
 export const getDays = (days) => {
   var date = new Date();
   var result = [];
@@ -42,7 +52,6 @@ export const getTechnicalAnalysis = async (endpoint, indicator, stock) => {
           }
     )
     .catch(() => {
-      console.log(indicator);
       return { macdSignal: [], macdHist: [], macd: [] };
     });
 };
@@ -228,7 +237,7 @@ export const getStocksToShow = async (params) => {
 };
 
 export const getChartDays = (QueryParams) =>
-  QueryParams.days > 50 && QueryParams.days < 365 * 15
+  QueryParams.days > 1 && QueryParams.days < 365 * 15
     ? getDays(QueryParams.days)
     : getDays(DEFAULT_DAYS_LONG);
 

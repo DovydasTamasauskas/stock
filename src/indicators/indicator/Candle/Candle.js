@@ -5,6 +5,7 @@ import {
   getTechnicalAnalysis,
   getTimeSeriesCandle,
   calculateAnalysis,
+  isUpToDay,
 } from "../../functions/func.js";
 import useEffectAsync from "../../helpers/useEffectAsync.js";
 
@@ -16,6 +17,7 @@ function Stock({ symbol, days, color }) {
   const [Sma, AddSma] = useState([]);
   const [Ema, AddEma] = useState([]);
   const [DaysOld, setDaysOld] = useState(0);
+  const [DaysColor, setDaysColor] = useState();
   const [Analysis, AddAnalysis] = useState([]);
 
   useEffectAsync(async () => {
@@ -32,12 +34,14 @@ function Stock({ symbol, days, color }) {
     AddSma(SmaArray);
     AddEma(EmaArray);
     setDaysOld(daysOld);
+    setDaysColor(isUpToDay(daysOld) ? "green" : "red");
+    setDaysOld(daysOld);
     AddAnalysis(calculateAnalysis(open, close));
   }, symbol);
 
   return (
     <div>
-      <div>{DaysOld}</div>
+      <div style={{color: DaysColor}}>{DaysOld}</div>
       <div>{Close[0]}</div>
       <div>
         open:{" "}
