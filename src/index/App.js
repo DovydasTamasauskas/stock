@@ -11,7 +11,10 @@ import {
   RSI,
 } from "../indicators/indicator";
 
-import WatchList from "../components/WatchList/watchList";
+import {
+  WatchList,
+  MyList,
+} from "../components";
 import {
   getQueryParams,
   background,
@@ -47,7 +50,11 @@ function App() {
 
   return (
     <div className="App">
-      <WatchList />
+      <div class="col-md-12 " style={{backgroundColor:"white", paddingTop:10}}>
+        <div class="col-md-4"><WatchList /></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4"><MyList /></div>
+      </div>
       {!!StocksToShow &&
         StocksToShow.map(
           (stock, key) =>
