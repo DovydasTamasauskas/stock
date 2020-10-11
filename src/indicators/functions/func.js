@@ -14,7 +14,7 @@ export const isUpToDay = (d) => {
   var date = new Date();
   var weekDay = date.getDay();
   var add = 0;
-  add += weekDay === 7 ? 1 : 0;
+  add += weekDay === 0 ? 1 : 0;
   add += weekDay === 1 ? 2 : 0;
 
   return new Date(d).getDate()+1 === date.getDate()-add;

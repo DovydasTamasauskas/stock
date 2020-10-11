@@ -8,6 +8,8 @@ import {
   isUpToDay,
 } from "../../functions/func.js";
 import useEffectAsync from "../../helpers/useEffectAsync.js";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 function Stock({ symbol, days, color }) {
   const [Open, AddOpen] = useState([]);
@@ -19,6 +21,8 @@ function Stock({ symbol, days, color }) {
   const [DaysOld, setDaysOld] = useState(0);
   const [DaysColor, setDaysColor] = useState();
   const [Analysis, AddAnalysis] = useState([]);
+  const [showSMA, setShowSMA] = useState(true);
+  const [showEMA, setShowEMA] = useState(true);
 
   useEffectAsync(async () => {
     const {
@@ -43,10 +47,10 @@ function Stock({ symbol, days, color }) {
     <div>
       <div style={{color: DaysColor}}>{DaysOld}</div>
       <div>{Close[0]}</div>
-      <div>
+      {/* <div>
         open:{" "}
         {!!Analysis.open && Analysis.open.map((x, key) => renderUpDown(x, key))}
-      </div>
+      </div> */}
       <div>
         close:{" "}
         {!!Analysis.close &&
@@ -57,6 +61,8 @@ function Stock({ symbol, days, color }) {
         {!!Analysis.chart &&
           Analysis.chart.map((x, key) => renderUpDown(x, key))}
       </div>
+      <FormControlLabel control={<Checkbox name="SMA" checked={showSMA} onChange={()=>setShowSMA(!showSMA)} />} label="SMA" />
+      <FormControlLabel control={<Checkbox name="EMA" checked={showEMA} onChange={()=>setShowEMA(!showEMA)} />} label="EMA" />
       <Plot
         data={[
           {
@@ -78,7 +84,7 @@ function Stock({ symbol, days, color }) {
             type: "scatter",
             marker: { color: "black" },
             name: "SMA",
-            opacity: 0.5,
+            opacity: showEMA ? 0.5 : 0,
             showlegend: false,
           },
           {
@@ -87,7 +93,7 @@ function Stock({ symbol, days, color }) {
             type: "scatter",
             marker: { color: "green" },
             name: "EMA",
-            opacity: 0.5,
+            opacity: showSMA ? 0.5 : 0,
             showlegend: false,
           },
         ]}
