@@ -7,6 +7,7 @@ import {
   RSI as _RSI,
   MACD as _MACD,
   SMA as _SMA,
+  EMA as _EMA,
   BACKEND_HOST,
 } from "../consts/CONST.js";
 
@@ -207,6 +208,7 @@ export const fetchData = (symbol) => {
   axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_RSI},${symbol}`);
   axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_MACD},${symbol}`);
   axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_SMA},${symbol}`);
+  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_EMA},${symbol}`);
   window.location.reload(false);
 };
 

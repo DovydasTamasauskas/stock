@@ -25,6 +25,8 @@ export const STOCKS = [
   "AAPL",
   "AMZN",
   "GOOGL",
+  "GOOG",
+  "DPZ",
   "FB",
   "MMM",
   "DIS",
