@@ -86,6 +86,8 @@ function Stock({ symbol, days, color }) {
             name: "SMA",
             opacity: showEMA ? 0.5 : 0,
             showlegend: false,
+            xaxis: "x",
+            yaxis: "y",
           },
           {
             x: days,
@@ -95,6 +97,8 @@ function Stock({ symbol, days, color }) {
             name: "EMA",
             opacity: showSMA ? 0.5 : 0,
             showlegend: false,
+            xaxis: "x",
+            yaxis: "y",
           },
         ]}
         layout={{
