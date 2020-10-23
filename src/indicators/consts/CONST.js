@@ -9,10 +9,10 @@ export const RSI = "RSI";
 export const MACD = "MACD";
 export const OBV = "OBV";
 export const BBANDS = "BBANDS";
-export const HOST = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "http://www.zodis2.lavina.lt";
+export const HOST = "http://www.zodis2.lavina.lt";
 
 export const DEFAULT_DAYS_LONG = 100;
-export const DEFAULT_PAGE_SIZE = 6;
+export const DEFAULT_PAGE_SIZE = 50;
 export const KEY = "VFJX12SNBPEWKHQB";
 
 // export const DAILY_ENDPOINT = `${BACKEND_HOST}?HGJWFG4N8AQ66ICD,${DAILY}`;
@@ -33,19 +33,11 @@ export const STOCKS = [
   "FOXA",
   "MCD",
   "RY",
-  "WFC",
-  "XOM",
   "KO",
-  "T",
-  "BA",
-  "DAL",
-  "ALL",
   "AMD",
   "NFLX",
   "BABA",
   "BYND",
-  "CCL",
-  "NCLH",
   "ZM",
   "SPCE",
   "NVDA",
@@ -60,18 +52,18 @@ export const STOCKS = [
   "GILD",
   "GE",
   "BKNG",
-  "GRPN",
   "AMRX",
   "ABEV",
   "WORK",
   "BAC",
   "SHOP",
-  "IVR",
-  "MRO",
-  "AMC",
-  "PEE",
   "INTC",
   "SNE",
   "SBUX",
   "ADBE",
+  "GM",
+  "JNJ",
+  "GPRO",
+  "NKE",
+  "PTON",
 ];

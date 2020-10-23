@@ -6,6 +6,7 @@ import {
   getTimeSeriesCandle,
   calculateAnalysis,
   isUpToDay,
+  fetchData,
 } from "../../functions/func.js";
 import useEffectAsync from "../../helpers/useEffectAsync.js";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -45,8 +46,8 @@ function Stock({ symbol, days, color }) {
 
   return (
     <div>
-      <div style={{color: DaysColor}}>{DaysOld}</div>
       <div>{Close[0]}</div>
+      <div onClick={() => fetchData(symbol)} style={{color: DaysColor}}>{DaysOld}</div>
       {/* <div>
         open:{" "}
         {!!Analysis.open && Analysis.open.map((x, key) => renderUpDown(x, key))}

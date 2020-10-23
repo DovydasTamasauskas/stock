@@ -3,13 +3,13 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import { STOCKS } from "../../indicators/consts/CONST";
+import { STOCKS, HOST } from "../../indicators/consts/CONST";
 
 const WatchList = () => {
   const [value, setValue] = React.useState(undefined);
   const [days, setDays] = React.useState(100);
   React.useEffect(() => {
-    value && window.open("http://localhost:3000/?stock=" + value + "&days=" + days, "_blank")
+    value && window.open(HOST+"/?stock=" + value + "&days=" + days, "_blank")
   }, [value]);
   return (
     <>

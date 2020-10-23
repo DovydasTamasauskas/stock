@@ -16,13 +16,20 @@ const Header = () => (
         </button>
         <button type="button" class="btn btn-secondary" style={{ margin: 5 }}>
           <a href={`${HOST}?analysis=MACD`}>MACD</a>
-        </button><br />
+        </button>
+
+        <br />
+
         <button type="button" class="btn btn-secondary" style={{ margin: 5 }}>
           <a href={`${HOST}?analysis=WatchList`}>WatchList</a>
         </button>
         <button type="button" class="btn btn-secondary" style={{ margin: 5 }}>
+          <a href={`${HOST}?all=0`}>ALL</a>
+        </button>
+        <button type="button" class="btn btn-secondary" style={{ margin: 5 }}>
           <a href={`${HOST}?analysis=MyList`}>MyList</a>
         </button>
+
         <div class="col-md-auto"><Stock /></div>
       </div>
       <div class="col-md-4"><MyList /></div>

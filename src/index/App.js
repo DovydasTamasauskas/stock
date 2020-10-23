@@ -22,11 +22,12 @@ import {
   getChartDays,
 } from "../indicators/functions/func.js";
 import useEffectAsync from "../indicators/helpers/useEffectAsync.js";
+import { HOST } from "../indicators/consts/CONST";
 
 const showStock = (key, stock, days, background) => {
   return (
     <div key={key} style={{ backgroundColor: background(key) }}>
-      <a onClick={() => fetchData(stock)}>{stock}</a>
+      <a onClick={() => window.open(HOST+"/?stock=" + stock + "&days=500", "_blank")}>{stock}</a>
       <Candle symbol={stock} days={days} color={background(key)} />
       {/* <BBands symbol={stock} days={days} color={background(key)} /> */}
       {/* <Divident symbol={stock} days={days} color={background(key)} /> */}
