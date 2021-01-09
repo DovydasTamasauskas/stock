@@ -4,14 +4,13 @@ import axios from "axios";
 import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-
-import { STOCKS } from "../../indicators/consts/CONST";
+import { BACKEND_HOST, STOCKS } from "../../indicators/consts/CONST";
 
 const WatchList = () => {
   const [value, setValue] = React.useState([]);
   React.useEffect(async () => {
     const result = await axios(
-      `http://www.database.lavina.lt/?Get,Analysis,WatchList`
+      `${BACKEND_HOST}?Get,Analysis,WatchList`
     );
     setValue(result.data.split("-"));
   }, []);
@@ -19,7 +18,7 @@ const WatchList = () => {
   React.useEffect(() => {
     value.length > 0 &&
       axios(
-        `http://www.database.lavina.lt/?Set,Analysis,WatchList,` +
+        `${BACKEND_HOST}?Set,Analysis,WatchList,` +
           value.join("-")
       );
   }, [value]);

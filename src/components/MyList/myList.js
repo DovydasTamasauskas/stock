@@ -5,13 +5,15 @@ import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import { STOCKS } from "../../indicators/consts/CONST";
+import { BACKEND_HOST, STOCKS } from "../../indicators/consts/CONST";
 
 const WatchList = () => {
   const [value, setValue] = React.useState([]);
+  const [inputValue, setInputValue] = React.useState('');
+  
   React.useEffect(async () => {
     const result = await axios(
-      `http://www.database.lavina.lt/?Get,Analysis,MyList`
+      `${BACKEND_HOST}?Get,Analysis,MyList`
     );
     setValue(result.data.split("-"));
   }, []);
@@ -19,19 +21,23 @@ const WatchList = () => {
   React.useEffect(() => {
     value.length > 0 &&
       axios(
-        `http://www.database.lavina.lt/?Set,Analysis,MyList,` +
-          value.join("-")
+        `${BACKEND_HOST}?Set,Analysis,MyList,` +
+        value.join("-")
       );
   }, [value]);
   return (
     <Autocomplete
       multiple
       value={value}
+      inputValue={inputValue}
       onChange={(event, newValue) => {
         setValue([...newValue]);
       }}
-      options={STOCKS}
-      getOptionLabel={(option) => option}
+      options={[...STOCKS, inputValue]}
+      getOptionLabel={(option) =>  option}
+      onInputChange={(event, newInputValue) => {
+        setInputValue(newInputValue);
+      }}
       renderTags={(tagValue, getTagProps) =>
         tagValue.map((option, index) => (
           <Chip label={option} {...getTagProps({ index })} />

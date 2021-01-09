@@ -9,6 +9,7 @@ import {
   SMA as _SMA,
   EMA as _EMA,
   BACKEND_HOST,
+  KEY,
 } from "../consts/CONST.js";
 
 export const isUpToDay = (d) => {
@@ -193,6 +194,7 @@ export const getQueryParams = () => {
     stock: new URLSearchParams(window.location.search).get("stock"),
     all: new URLSearchParams(window.location.search).get("all"),
     analysis: new URLSearchParams(window.location.search).get("analysis"),
+    tickers: new URLSearchParams(window.location.search).get("tickers"),
   };
 };
 
@@ -203,23 +205,18 @@ const parseToInteger = (string) => {
 
 export const background = (key) => (key % 2 === 0 ? "#DCDCDC" : "#A9A9A9");
 
-export const fetchData = (symbol) => {
-  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_DAILY},${symbol}`);
-  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_RSI},${symbol}`);
-  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_MACD},${symbol}`);
-  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_SMA},${symbol}`);
-  axios(`${BACKEND_HOST}?VFJX12SNBPEWKHQB,${_EMA},${symbol}`);
-  window.location.reload(false);
+export const fetchData = (symbol, indicator) => {
+  axios(`${BACKEND_HOST}?${KEY},${indicator},${symbol}`);
 };
 
 export const getStocksToShow = async (params) => {
   if (params.analysis !== null) {
     const endpointData = await axios(
-      `http://www.database.lavina.lt/?Get,Analysis,${params.analysis}`
+      `${BACKEND_HOST}?Get,Analysis,${params.analysis}`
     );
     console.log(
       "link",
-      `http://www.database.lavina.lt/?Get,Analysis,${params.analysis}`
+      `${BACKEND_HOST}?Get,Analysis,${params.analysis}`
     );
     return endpointData.data.split("-");
   }
@@ -230,6 +227,10 @@ export const getStocksToShow = async (params) => {
 
   if (params.all !== null) {
     return STOCKS;
+  }
+
+  if (params.tickers !== null) {
+    return [];
   }
 
   return STOCKS.slice(

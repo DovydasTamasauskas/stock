@@ -51,7 +51,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-
+      
       {!!StocksToShow &&
         StocksToShow.map(
           (stock, key) =>

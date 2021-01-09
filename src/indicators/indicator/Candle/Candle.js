@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Plot from "react-plotly.js";
-import { BACKEND_HOST, SMA, EMA, DAILY } from "../../consts/CONST.js";
+import { BACKEND_HOST, SMA, EMA, DAILY, RSI, MACD } from "../../consts/CONST.js";
 import {
   getTechnicalAnalysis,
   getTimeSeriesCandle,
@@ -47,7 +47,14 @@ function Stock({ symbol, days, color }) {
   return (
     <div>
       <div>{Close[0]}</div>
-      <div onClick={() => fetchData(symbol)} style={{color: DaysColor}}>{DaysOld}</div>
+      <div style={{color: DaysColor}}>{DaysOld}</div>
+      <div>
+        <a onClick={() => fetchData(symbol, DAILY)}>DAILY </a>
+        <a onClick={() => fetchData(symbol, SMA)}>SMA </a>
+        <a onClick={() => fetchData(symbol, EMA)}>EMA </a>
+        <a onClick={() => fetchData(symbol, RSI)}>RSI </a>
+        <a onClick={() => fetchData(symbol, MACD)}>MACD </a>
+        </div>
       {/* <div>
         open:{" "}
         {!!Analysis.open && Analysis.open.map((x, key) => renderUpDown(x, key))}
@@ -79,17 +86,17 @@ function Stock({ symbol, days, color }) {
             xaxis: "x",
             yaxis: "y",
           },
-          {
-            x: days,
-            y: Sma,
-            type: "scatter",
-            marker: { color: "black" },
-            name: "SMA",
-            opacity: showEMA ? 0.5 : 0,
-            showlegend: false,
-            xaxis: "x",
-            yaxis: "y",
-          },
+          // {
+          //   x: days,
+          //   y: Sma,
+          //   type: "scatter",
+          //   marker: { color: "black" },
+          //   name: "SMA",
+          //   opacity: showEMA ? 0.5 : 0,
+          //   showlegend: false,
+          //   xaxis: "x",
+          //   yaxis: "y",
+          // },
           {
             x: days,
             y: Ema,
