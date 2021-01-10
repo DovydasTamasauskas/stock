@@ -7,10 +7,10 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { BACKEND_HOST, STOCKS } from "../../indicators/consts/CONST";
 
-const WatchList = () => {
+const MyList = () => {
   const [value, setValue] = React.useState([]);
   const [inputValue, setInputValue] = React.useState('');
-  
+
   React.useEffect(async () => {
     const result = await axios(
       `${BACKEND_HOST}?Get,Analysis,MyList`
@@ -22,7 +22,7 @@ const WatchList = () => {
     value.length > 0 &&
       axios(
         `${BACKEND_HOST}?Set,Analysis,MyList,` +
-        value.join("-")
+          value.join("-")
       );
   }, [value]);
   return (
@@ -55,4 +55,4 @@ const WatchList = () => {
   );
 };
 
-export default WatchList;
+export default MyList;

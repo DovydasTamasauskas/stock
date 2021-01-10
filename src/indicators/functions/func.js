@@ -214,10 +214,6 @@ export const getStocksToShow = async (params) => {
     const endpointData = await axios(
       `${BACKEND_HOST}?Get,Analysis,${params.analysis}`
     );
-    console.log(
-      "link",
-      `${BACKEND_HOST}?Get,Analysis,${params.analysis}`
-    );
     return endpointData.data.split("-");
   }
 
@@ -233,10 +229,14 @@ export const getStocksToShow = async (params) => {
     return [];
   }
 
-  return STOCKS.slice(
-    params.stocks * DEFAULT_PAGE_SIZE,
-    (params.stocks + 1) * DEFAULT_PAGE_SIZE
+  const watchList = await axios(
+    `${BACKEND_HOST}?Get,Analysis,MyList`
   );
+  if(watchList.data !== null && watchList.data.length > 0){
+    return watchList.data.split("-")
+  }
+
+  return STOCKS;
 };
 
 export const getChartDays = (QueryParams) =>

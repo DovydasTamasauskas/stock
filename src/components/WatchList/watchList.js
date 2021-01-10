@@ -4,10 +4,13 @@ import axios from "axios";
 import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+
 import { BACKEND_HOST, STOCKS } from "../../indicators/consts/CONST";
 
 const WatchList = () => {
   const [value, setValue] = React.useState([]);
+  const [inputValue, setInputValue] = React.useState('');
+
   React.useEffect(async () => {
     const result = await axios(
       `${BACKEND_HOST}?Get,Analysis,WatchList`
@@ -26,11 +29,15 @@ const WatchList = () => {
     <Autocomplete
       multiple
       value={value}
+      inputValue={inputValue}
       onChange={(event, newValue) => {
         setValue([...newValue]);
       }}
-      options={STOCKS}
-      getOptionLabel={(option) => option}
+      options={[...STOCKS, inputValue]}
+      getOptionLabel={(option) =>  option}
+      onInputChange={(event, newInputValue) => {
+        setInputValue(newInputValue);
+      }}
       renderTags={(tagValue, getTagProps) =>
         tagValue.map((option, index) => (
           <Chip label={option} {...getTagProps({ index })} />
